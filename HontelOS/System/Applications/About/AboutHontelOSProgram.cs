@@ -16,7 +16,7 @@ namespace HontelOS.System.Applications.About
     {
         PictureBox logoCon;
 
-        public AboutHontelOSProgram() : base("About HontelOS", WindowStyle.Dialog, (int)Kernel.screenWidth / 2 - 150, (int)Kernel.screenHeight / 2 - 250, 600, 400)
+        public AboutHontelOSProgram() : base("About HontelOS", WindowStyle.Dialog, (int)Kernel.screenWidth / 2 - 150, (int)Kernel.screenHeight / 2 - 250, 600, 450)
         {
             Bitmap logo = Style.StyleType == StyleType.Light ? ResourceManager.HontelOSLogoBlack : ResourceManager.HontelOSLogoWhite;
             Page p = Pages[0];
@@ -31,6 +31,9 @@ namespace HontelOS.System.Applications.About
 
             new Label("Copyright (c) 2025 Jort van Dalen", null, Color.Empty, 25, 235 + Style.SystemFont.Height * 6, p);
             new Label("All rights reserved", null, Color.Empty, 25, 235 + Style.SystemFont.Height * 7, p);
+
+            new Label("Made with Cosmos:", null, Color.Empty, 25, 235 + Style.SystemFont.Height * 9, p);
+            new Label("https://github.com/CosmosOS/Cosmos", null, Color.Empty, 25, 235 + Style.SystemFont.Height * 10, p);
 
             WindowManager.Register(this);
 
