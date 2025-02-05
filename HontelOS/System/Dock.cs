@@ -26,12 +26,15 @@ namespace HontelOS.System
         Bitmap appList = ResourceManager.SystemAppListIcon;
         Bitmap applicationIcon = ResourceManager.SystemApplicationIcon;
 
+        Bitmap cached = null;
+        bool IsDirty = true;
+
         public Dock()
         {
             WindowManager.OnWindowsListUpdate.Add(OnItemsUpdate);
 
-            SystemEvents.OnStyleChanged.Add(() => { Style = StyleManager.Style; });
-            SystemEvents.OnCanvasChanged.Add(() => { c = Kernel.canvas; Update(); OnItemsUpdate(); });
+            SystemEvents.OnStyleChanged.Add(() => { Style = StyleManager.Style; IsDirty = true; });
+            SystemEvents.OnCanvasChanged.Add(() => { c = Kernel.canvas; IsDirty = true; });
         }
 
         public void Draw()
@@ -40,6 +43,12 @@ namespace HontelOS.System
             int posY = (int)Kernel.screenHeight - 94;
             int sizX = dockWidth;
             int sizY = 84;
+
+            if (!IsDirty)
+            {
+                c.DrawImage(cached, posX, posY, sizX, sizY);
+                return;
+            }
 
             c.DrawFilledRoundedRectangle(Style.Dock_BackgroundColor, posX, posY, sizX, sizY, 10);
 
@@ -52,6 +61,9 @@ namespace HontelOS.System
                 else
                     c.DrawImage(applicationIcon, posX + 84 + i * 74, posY + 10, 64, 64);
             }
+
+            cached = c.GetImage(posX, posY, sizX, sizY);
+            IsDirty = false;
         }
 
         public void Update()
@@ -65,6 +77,9 @@ namespace HontelOS.System
 
             foreach (var tt in windowTooltips.Values)
                 tt.Hide();
+
+            if (!Kernel.MouseInArea(posX, posY, posX + dockWidth, posY + 20 + 64))
+                return;
 
             if (Kernel.MouseInArea(posX + 10, posY + 10, posX + 10 + 64, posY + 10 + 64))
             {
@@ -106,6 +121,8 @@ namespace HontelOS.System
 
             for (int i = 0; i < WindowManager.Windows.Count; i++)
                 windowTooltips.Add(WindowManager.Windows.Keys.ToList()[i], new ToolTip(WindowManager.Windows.Values.ToList()[i].Title, ToolTip.ToolTipOrginDirection.Down, posX + 79 + 32 + i * 74, posY));
+
+            IsDirty = true;
         }
     }
 }
