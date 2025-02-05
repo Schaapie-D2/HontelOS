@@ -75,8 +75,8 @@ namespace HontelOS.System.Applications.Settings
                 int index = i;
                 _resolutionActions[i] = (int sel) =>
                 {
-                    Kernel.canvas.Mode = Kernel.canvas.AvailableModes[index];
-                    var m = Kernel.canvas.Mode;
+                    var m = Kernel.canvas.AvailableModes[index];
+                    Kernel.SetResolution(m);
                     Set("Resolution", $"{m.Width}x{m.Height}");
                 };
             }

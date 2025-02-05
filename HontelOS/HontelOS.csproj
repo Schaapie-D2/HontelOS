@@ -24,6 +24,8 @@
 		<RemoveBootDebugOutput>True</RemoveBootDebugOutput>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<OptimizationLevel>3</OptimizationLevel>
+		<CompileVBEMultiboot>True</CompileVBEMultiboot>
+		<VBEResolution>1920x1080x32</VBEResolution>
 	</PropertyGroup>
 
 	<PropertyGroup>

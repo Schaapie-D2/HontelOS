@@ -44,7 +44,7 @@ namespace HontelOS
         public static Cursor cursor = Cursor.Default;
 
         public static uint screenWidth = 1920;
-        public static uint screenHeight = 1200;
+        public static uint screenHeight = 1080;
 
         static Bitmap logo = ResourceManager.HontelLogo;
         static Bitmap BG1 = ResourceManager.Background1;
@@ -62,7 +62,8 @@ namespace HontelOS
 
         static int heapCounter = 4;
 
-        int _deltaT = 0;
+        int _deltaTSec = 0;
+        int _deltaTMin = 0;
         int frames = 0;
         int fps = 0;
 
@@ -225,13 +226,19 @@ namespace HontelOS
         #region System
         void UpdateSystem()
         {
-            if (_deltaT != RTC.Second)
+            if (_deltaTSec != RTC.Second)
             {
                 fps = frames;
                 frames = 0;
-                _deltaT = RTC.Second;
+                _deltaTSec = RTC.Second;
+                foreach(var a in SystemEvents.SecondPassed) a.Invoke();
             }
             frames++;
+            if(_deltaTMin != RTC.Minute)
+            {
+                _deltaTMin = RTC.Minute;
+                foreach (var a in SystemEvents.MinutePassed) a.Invoke();
+            }
 
             mouseClickNotice1 = false;
             mouseClickSecNotice1 = false;
@@ -258,8 +265,6 @@ namespace HontelOS
 
         public static void SetResolution(Mode mode)
         {
-            if (!canvas.AvailableModes.Contains(mode)) return;
-
             canvas.Mode = mode;
             screenWidth = mode.Width;
             screenHeight = mode.Height;
