@@ -2,6 +2,12 @@
 * PROJECT:          HontelOS
 * CONTENT:          Dock element
 * PROGRAMMERS:      Jort van Dalen
+* 
+* Copyright (c) 2025 Jort van Dalen
+* 
+* This code is licensed under the BSD 3-Clause License.
+* You may obtain a copy of the License at:
+* https://opensource.org/licenses/BSD-3-Clause
 */
 
 using Cosmos.System.Graphics;
@@ -34,7 +40,7 @@ namespace HontelOS.System
             WindowManager.OnWindowsListUpdate.Add(OnItemsUpdate);
 
             SystemEvents.OnStyleChanged.Add(() => { Style = StyleManager.Style; IsDirty = true; });
-            SystemEvents.OnCanvasChanged.Add(() => { c = Kernel.canvas; IsDirty = true; });
+            SystemEvents.OnCanvasChanged.Add(() => { c = Kernel.canvas; OnItemsUpdate(); IsDirty = true; });
         }
 
         public void Draw()

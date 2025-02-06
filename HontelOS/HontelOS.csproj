@@ -54,12 +54,14 @@ namespace HontelOS.System
 
     <ItemGroup>
       <EmbeddedResource Include="Resources\Audio\boot.wav" />
+      <EmbeddedResource Include="Resources\Images\Backgrounds\BG1.bmp" />
+      <EmbeddedResource Include="Resources\Images\Backgrounds\BG2.bmp" />
+      <EmbeddedResource Include="Resources\Images\Backgrounds\BG3.bmp" />
       <EmbeddedResource Include="Resources\Images\Branding\HontelOS_Logo_Black.bmp" />
       <EmbeddedResource Include="Resources\Images\Branding\HontelOS_Logo_White.bmp" />
       <EmbeddedResource Include="Resources\Images\Branding\Hontel_Logo.bmp" />
       <EmbeddedResource Include="Resources\Images\System_App_List.bmp" />
       <EmbeddedResource Include="Resources\Images\System_Application.bmp" />
-      <EmbeddedResource Include="Resources\Images\BG1.bmp" />
     </ItemGroup>
 
     <ItemGroup>

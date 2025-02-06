@@ -2,9 +2,18 @@
 * PROJECT:          HontelOS
 * CONTENT:          HontelOS style manager
 * PROGRAMMERS:      Jort van Dalen
+* 
+* Copyright (c) 2025 Jort van Dalen
+* 
+* This code is licensed under the BSD 3-Clause License.
+* You may obtain a copy of the License at:
+* https://opensource.org/licenses/BSD-3-Clause
 */
 
+using Cosmos.System.Graphics;
+using HontelOS.Resources;
 using HontelOS.System.User;
+using System.IO;
 
 namespace HontelOS.System.Graphics
 {
@@ -13,8 +22,14 @@ namespace HontelOS.System.Graphics
         public static Style Style { get; private set; }
         public static Style PreviousStyle { get; private set; }
 
+        public static Bitmap Background;
+        public static Bitmap ScalledBackground;
+        //public static Bitmap BlurredBackground;
+
         public static void Init()
         {
+            SystemEvents.OnCanvasChanged.Add(() => { SetBackground(Background); });
+
             var s = Settings.Get("Style");
             Style ns = new LightStyle();
 
@@ -23,6 +38,33 @@ namespace HontelOS.System.Graphics
 
             Style = ns;
             PreviousStyle = ns;
+
+            if(Settings.Get("BackgroundType") == "builtin")
+            {
+                switch (Settings.Get("Background"))
+                {
+                    case "1":
+                        SetBackground(ResourceManager.Background1);
+                        break;
+                    case "2":
+                        SetBackground(ResourceManager.Background2);
+                        break;
+                    case "3":
+                        SetBackground(ResourceManager.Background3);
+                        break;
+                    default:
+                        SetBackground(ResourceManager.Background1);
+                        break;
+                }
+            }
+            else if (Settings.Get("BackgroundType") == "file")
+            {
+                SetBackground(Settings.Get("Background"));
+            }
+            else
+            {
+                SetBackground(ResourceManager.Background1);
+            }
         }
 
         public static void SetStyle(Style style)
@@ -31,6 +73,25 @@ namespace HontelOS.System.Graphics
             Style = style;
             foreach (var a in SystemEvents.OnStyleChanged)
                 a.Invoke();
+        }
+
+        public static void SetBackground(Bitmap background)
+        {
+            Background = background;
+            ScalledBackground = CanvasUtils.ScaleImage(background, (int)Kernel.screenWidth, (int)Kernel.screenHeight);
+
+            //BlurredBackground = Blur.GenerateFastBlur(ResourceManager.Background1, 10); causes the system to crash because the file is to big
+        }
+
+        public static void SetBackground(string path)
+        {
+            Bitmap background = null;
+            if (File.Exists(path))
+                background = new Bitmap(path);
+            else
+                background = ResourceManager.Background1;
+
+            SetBackground(background);
         }
     }
 }

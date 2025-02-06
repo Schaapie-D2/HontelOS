@@ -2,6 +2,12 @@
 * PROJECT:          HontelOS
 * CONTENT:          User settings class
 * PROGRAMMERS:      Jort van Dalen
+* 
+* Copyright (c) 2025 Jort van Dalen
+* 
+* This code is licensed under the BSD 3-Clause License.
+* You may obtain a copy of the License at:
+* https://opensource.org/licenses/BSD-3-Clause
 */
 
 using System.Collections.Generic;
@@ -18,8 +24,10 @@ namespace HontelOS.System.User
 
         public static string[] Default = new string[]
         {
-            "Resolution;1920x1200",
-            "Style;L"
+            "Resolution;1920x1080",
+            "Style;L",
+            "BackgroundType;builtin",
+            "Background;2"
         };
 
         public static void Reset()

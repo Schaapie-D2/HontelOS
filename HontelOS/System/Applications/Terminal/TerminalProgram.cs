@@ -1,4 +1,16 @@
-﻿using HontelOS.System.Graphics;
+﻿/*
+* PROJECT:          HontelOS
+* CONTENT:          Terminal program for HontelOS
+* PROGRAMMERS:      Jort van Dalen
+* 
+* Copyright (c) 2025 Jort van Dalen
+* 
+* This code is licensed under the BSD 3-Clause License.
+* You may obtain a copy of the License at:
+* https://opensource.org/licenses/BSD-3-Clause
+*/
+
+using HontelOS.System.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;

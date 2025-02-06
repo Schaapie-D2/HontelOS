@@ -2,11 +2,18 @@
 * PROJECT:          HontelOS
 * CONTENT:          Settings program for HontelOS
 * PROGRAMMERS:      Jort van Dalen
+* 
+* Copyright (c) 2025 Jort van Dalen
+* 
+* This code is licensed under the BSD 3-Clause License.
+* You may obtain a copy of the License at:
+* https://opensource.org/licenses/BSD-3-Clause
 */
 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using HontelOS.Resources;
 using HontelOS.System.Graphics;
 using HontelOS.System.Graphics.Controls;
 
@@ -104,9 +111,17 @@ namespace HontelOS.System.Applications.Settings
             Action<int>[] _themeActions =
             {
                 index => { StyleManager.SetStyle(new LightStyle()); Set("Style", "L"); },
-                index => { StyleManager.SetStyle(new DarkStyle()); Set("Style", "D"); },
+                index => { StyleManager.SetStyle(new DarkStyle()); Set("Style", "D"); }
             };
             new DropdownButton(new[] { "Light", "Dark" }, 0, _themeActions, 5, 30, 300, 30, p);
+
+            Action<int>[] _BGActions =
+            {
+                index => { StyleManager.SetBackground(ResourceManager.Background1); Set("BackgroundType", "builtin"); Set("Background", "1"); },
+                index => { StyleManager.SetBackground(ResourceManager.Background2); Set("BackgroundType", "builtin"); Set("Background", "2"); },
+                index => { StyleManager.SetBackground(ResourceManager.Background3); Set("BackgroundType", "builtin"); Set("Background", "3"); }
+            };
+            new DropdownButton(new[] { "Background 1", "Background 2", "Background 3" }, 0, _BGActions, 5, 65, 300, 30, p);
         }
 
         void SetupPageTimeNLanguage()

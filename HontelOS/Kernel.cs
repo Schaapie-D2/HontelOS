@@ -2,6 +2,12 @@
 * PROJECT:          HontelOS
 * CONTENT:          HontelOS kernel
 * PROGRAMMERS:      Jort van Dalen
+* 
+* Copyright (c) 2025 Jort van Dalen
+* 
+* This code is licensed under the BSD 3-Clause License.
+* You may obtain a copy of the License at:
+* https://opensource.org/licenses/BSD-3-Clause
 */
 
 using Sys = Cosmos.System;
@@ -47,7 +53,6 @@ namespace HontelOS
         public static uint screenHeight = 1080;
 
         static Bitmap logo = ResourceManager.HontelLogo;
-        static Bitmap BG1 = ResourceManager.Background1;
 
         public static List<SystemControl> systemControls = new List<SystemControl>();
         public static List<Process> Processes = new List<Process>();
@@ -80,8 +85,6 @@ namespace HontelOS
                 //Settings.Reset();
                 Settings.Load();
 
-                StyleManager.Init();
-
                 // I don't know how to use the Cosmos Audio interface this correctly, i'll look into it later
                 audioMixer = new AudioMixer();
                 audioDriver = AudioDriverExt.GetAudioDriver();
@@ -111,6 +114,8 @@ namespace HontelOS
                 canvas.Display();
 
                 audioMixer.Streams.Add(ResourceManager.BootSound);
+
+                StyleManager.Init();
 
                 MouseManager.ScreenWidth = screenWidth;
                 MouseManager.ScreenHeight = screenHeight;
@@ -145,7 +150,7 @@ namespace HontelOS
                 UpdateSystem();
 
                 // Drawing GUI
-                canvas.DrawImage(BG1, 0, 0, true);
+                canvas.DrawImage(StyleManager.ScalledBackground, 0, 0, true);
 
                 WindowManager.Draw();
 

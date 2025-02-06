@@ -2,6 +2,12 @@
 * PROJECT:          HontelOS
 * CONTENT:          Canvas ultility functions
 * PROGRAMMERS:      Jort van Dalen
+* 
+* Copyright (c) 2025 Jort van Dalen
+* 
+* This code is licensed under the BSD 3-Clause License.
+* You may obtain a copy of the License at:
+* https://opensource.org/licenses/BSD-3-Clause
 */
 
 using Cosmos.System.Graphics;
@@ -12,7 +18,7 @@ namespace HontelOS.System.Graphics
 {
     public static class CanvasUtils
     {
-        // From Szymekk's Cosmos optimization kit with modifications
+        // From Szymekk44's Cosmos optimization kit with modifications
         public static void DrawFilledRoundedRectangle(this Canvas c, Color color, int x, int y, int width, int height, int radius)
         {
             c.DrawFilledRectangle(color, x + radius, y, width - 2 * radius, height, true);
@@ -23,7 +29,7 @@ namespace HontelOS.System.Graphics
             c.DrawFilledCircle(color, x + radius, y + height - radius - 1, radius);
             c.DrawFilledCircle(color, x + width - radius - 1, y + height - radius - 1, radius);
         }
-        // From Szymekk's Cosmos optimization kit with modifications
+        // From Szymekk44's Cosmos optimization kit with modifications
         public static void DrawRoundedRectangle(this Canvas c, Color color, int x, int y, int width, int height, int radius)
         {
             // Draw horizontal lines
@@ -40,7 +46,7 @@ namespace HontelOS.System.Graphics
             c.DrawArc(x + radius, y + height - radius, radius, radius, color, 90, 180); // Bottom-left corner
             c.DrawArc(x + width - radius, y + height - radius, radius, radius, color, 0, 90); // Bottom-right corner
         }
-        // From Szymekk's Cosmos optimization kit with modifications
+        // From Szymekk44's Cosmos optimization kit with modifications
         public static void DrawFilledTopRoundedRectangle(this Canvas c, Color color, int x, int y, int width, int height, int radius)
         {
             c.DrawFilledRectangle(color, x + radius, y, width - 2 * radius, height, true);
@@ -56,7 +62,7 @@ namespace HontelOS.System.Graphics
             c.DrawFilledCircle(color, x + radius, y + height - radius - 1, radius);
             c.DrawFilledCircle(color, x + width - radius - 1, y + height - radius - 1, radius);
         }
-        // From Szymekk's Cosmos fork with modifications
+        // From Szymekk44's Cosmos fork with modifications
         public static Bitmap GetImage(this Canvas c, int x, int y, int width, int height)
         {
             Bitmap bitmap = new((uint)width, (uint)height, ColorDepth.ColorDepth32);
@@ -65,6 +71,130 @@ namespace HontelOS.System.Graphics
                 for (int posx = x, destx = 0; posx < x + width; posx++, destx++)
                     bitmap.RawData[desty * width + destx] = c.GetPointColor(posx, posy).ToArgb();
             return bitmap;
+        }
+
+        public static Bitmap ScaleImage(Image image, int width, int height)
+        {
+            int[] pixels = image.RawData;
+            int w1 = (int)image.Width;
+            int h1 = (int)image.Height;
+            int[] temp = new int[width * height];
+
+            int xRatio = (w1 << 16) / width;
+            int yRatio = (h1 << 16) / height;
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    int x2 = (j * xRatio) >> 16;
+                    int y2 = (i * yRatio) >> 16;
+                    temp[(i * width) + j] = pixels[(y2 * w1) + x2];
+                }
+            }
+
+            var nBMP = new Bitmap((uint)width, (uint)height, ColorDepth.ColorDepth32);
+            nBMP.RawData = temp;
+            return nBMP;
+        }
+
+        // From Szymekk44's Waterfall-Core github repository
+        public static Bitmap Blend(this Bitmap background, Bitmap image, byte alpha, bool blendImageAlpha)
+        {
+            // Create a new bitmap for the blended result with the size of the background
+            Bitmap blendedBitmap = new Bitmap(background.Width, background.Height, ColorDepth.ColorDepth32);
+
+            int[] blendedData = new int[background.Width * background.Height];
+
+            byte alphaWeight = alpha;
+            byte inverseAlphaWeight = (byte)(255 - alpha);
+
+            int bgWidth = (int)background.Width;
+            int bgHeight = (int)background.Height;
+            int imgWidth = (int)image.Width;
+            int imgHeight = (int)image.Height;
+
+            // Precompute alpha ratios using bit shifts
+            float alphaWeightRatio = alphaWeight / 255f;
+            float inverseAlphaWeightRatio = inverseAlphaWeight / 255f;
+
+            for (int y = 0; y < bgHeight; y++)
+            {
+                for (int x = 0; x < bgWidth; x++)
+                {
+                    int bgIndex = (y * bgWidth) + x;
+                    int imgIndex = (y < imgHeight && x < imgWidth) ? (y * imgWidth) + x : -1;
+
+                    int bgColor = background.RawData[bgIndex];
+                    int imgColor = imgIndex >= 0 ? image.RawData[imgIndex] : bgColor;
+
+                    byte bgAlpha = (byte)((bgColor >> 24) & 0xFF);
+                    byte bgRed = (byte)((bgColor >> 16) & 0xFF);
+                    byte bgGreen = (byte)((bgColor >> 8) & 0xFF);
+                    byte bgBlue = (byte)(bgColor & 0xFF);
+
+                    byte imgAlpha = (byte)((imgColor >> 24) & 0xFF);
+                    byte imgRed = (byte)((imgColor >> 16) & 0xFF);
+                    byte imgGreen = (byte)((imgColor >> 8) & 0xFF);
+                    byte imgBlue = (byte)(imgColor & 0xFF);
+
+                    byte resultAlpha;
+                    byte resultRed;
+                    byte resultGreen;
+                    byte resultBlue;
+
+                    if (blendImageAlpha)
+                    {
+                        if (imgAlpha == 0)
+                        {
+                            resultAlpha = bgAlpha;
+                            resultRed = bgRed;
+                            resultGreen = bgGreen;
+                            resultBlue = bgBlue;
+                        }
+                        else
+                        {
+                            // Precompute normalized alphas
+                            float imgAlphaNormalized = imgAlpha / 255f;
+                            float bgAlphaNormalized = bgAlpha / 255f;
+
+                            // Precompute the blending factors
+                            float imgAlphaWeight = alphaWeightRatio * imgAlphaNormalized;
+                            float bgAlphaWeight = inverseAlphaWeightRatio * bgAlphaNormalized;
+
+                            resultAlpha = (byte)(Math.Min(1.0f, imgAlphaWeight + bgAlphaWeight) * 255);
+                            resultRed = (byte)((((imgAlphaNormalized * imgRed) + ((1 - imgAlphaNormalized) * bgRed)) * alphaWeightRatio) + (bgRed * inverseAlphaWeightRatio));
+                            resultGreen = (byte)((((imgAlphaNormalized * imgGreen) + ((1 - imgAlphaNormalized) * bgGreen)) * alphaWeightRatio) + (bgGreen * inverseAlphaWeightRatio));
+                            resultBlue = (byte)((((imgAlphaNormalized * imgBlue) + ((1 - imgAlphaNormalized) * bgBlue)) * alphaWeightRatio) + (bgBlue * inverseAlphaWeightRatio));
+                        }
+                    }
+                    else
+                    {
+                        resultAlpha = (byte)(((alphaWeight << 8) + (inverseAlphaWeight * bgAlpha)) >> 8);
+                        resultRed = (byte)(((alphaWeight * imgRed) + (inverseAlphaWeight * bgRed)) >> 8);
+                        resultGreen = (byte)(((alphaWeight * imgGreen) + (inverseAlphaWeight * bgGreen)) >> 8);
+                        resultBlue = (byte)(((alphaWeight * imgBlue) + (inverseAlphaWeight * bgBlue)) >> 8);
+                    }
+
+                    blendedData[bgIndex] = (resultAlpha << 24) | (resultRed << 16) | (resultGreen << 8) | resultBlue;
+                }
+            }
+
+            blendedBitmap.RawData = blendedData;
+
+            return blendedBitmap;
+        }
+        // From Szymekk44's Waterfall-Core github repository
+        public static Bitmap GetImage(this Bitmap bmp, int x, int y, int width, int height)
+        {
+            Bitmap extractedImage = new Bitmap((uint)width, (uint)height, ColorDepth.ColorDepth32);
+            for (int i = 0; i < height; i++)
+            {
+                int bmpStartIndex = x + ((y + i) * (int)bmp.Width);
+                int imageStartIndex = 0 + (i * (int)extractedImage.Width);
+                Array.Copy(bmp.RawData, bmpStartIndex, extractedImage.RawData, imageStartIndex, width);
+            }
+            return extractedImage;
         }
     }
 }

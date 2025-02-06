@@ -2,6 +2,12 @@
 * PROJECT:          HontelOS
 * CONTENT:          Blur effect generator
 * PROGRAMMERS:      Jort van Dalen
+* 
+* Copyright (c) 2025 Jort van Dalen
+* 
+* This code is licensed under the BSD 3-Clause License.
+* You may obtain a copy of the License at:
+* https://opensource.org/licenses/BSD-3-Clause
 */
 
 using Cosmos.System.Graphics;
@@ -11,13 +17,20 @@ namespace HontelOS.System.Graphics
 {
     public static class Blur
     {
-        public static Bitmap GetBlurredImage(Bitmap bmp, int radial)
+        public static Bitmap GenerateFastBlur(Bitmap bmp, int radial)
+        {
+            var bm = bmp;
+            bm.FastBlur(radial);
+            return bm;
+        }
+
+        public static void FastBlur(this Bitmap bmp, int radial)
         {
             int width = (int)bmp.Width;
             int height = (int)bmp.Height;
-            int[] rawData = Array.Empty<int>();
+            int[] rawData = bmp.RawData;
 
-            if (radial < 1 || width < 2 * radial || height < 2 * radial) return null;
+            if (radial < 1 || width < 2 * radial || height < 2 * radial) return;
 
             int[] newAlpha = new int[width * height];
             int[] newRed = new int[width * height];
@@ -45,10 +58,6 @@ namespace HontelOS.System.Graphics
                 int b = Clamp(newBlue[i], 0, 255);
                 rawData[i] = (a << 24) | (r << 16) | (g << 8) | b;
             }
-
-            Bitmap newBitmap = new Bitmap(bmp.Width, bmp.Height, ColorDepth.ColorDepth32);
-            newBitmap.RawData = rawData;
-            return newBitmap;
         }
 
         private static void SeparateChannels(int[] rawData, int[] alpha, int[] red, int[] green, int[] blue)

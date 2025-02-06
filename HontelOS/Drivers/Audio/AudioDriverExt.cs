@@ -4,6 +4,12 @@
 * PROGRAMMERS:      Jort van Dalen
 * 
 * MIGHT BE INCOMPLETE
+* 
+* Copyright (c) 2025 Jort van Dalen
+* 
+* This code is licensed under the BSD 3-Clause License.
+* You may obtain a copy of the License at:
+* https://opensource.org/licenses/BSD-3-Clause
 */
 
 using Cosmos.HAL.Drivers.Audio;
