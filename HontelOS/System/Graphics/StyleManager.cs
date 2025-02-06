@@ -12,8 +12,13 @@
 
 using Cosmos.System.Graphics;
 using HontelOS.Resources;
+using HontelOS.System.Graphics;
 using HontelOS.System.User;
+using Cosmos.Debug.Kernel;
+using System.Diagnostics;
 using System.IO;
+using Cosmos.Core;
+using System;
 
 namespace HontelOS.System.Graphics
 {
@@ -24,7 +29,7 @@ namespace HontelOS.System.Graphics
 
         public static Bitmap Background;
         public static Bitmap ScalledBackground;
-        //public static Bitmap BlurredBackground;
+        public static Bitmap BlurredBackground;
 
         public static void Init()
         {
@@ -78,9 +83,15 @@ namespace HontelOS.System.Graphics
         public static void SetBackground(Bitmap background)
         {
             Background = background;
-            ScalledBackground = CanvasUtils.ScaleImage(background, (int)Kernel.screenWidth, (int)Kernel.screenHeight);
+            Bitmap scBG = CanvasUtils.ScaleImage(background, (int)Kernel.screenWidth, (int)Kernel.screenHeight);
+            ScalledBackground = scBG;
 
-            //BlurredBackground = Blur.GenerateFastBlur(ResourceManager.Background1, 10); causes the system to crash because the file is to big
+            Bitmap blurBG = new Bitmap(scBG.Width, scBG.Height, ColorDepth.ColorDepth32); // For some reason
+            Array.Copy(scBG.RawData, blurBG.RawData, scBG.RawData.Length); // This prevents the ScalledBackground to be blurry??????
+            BlurredBackground = Blur.GenerateFastBlur(blurBG, 20);
+
+            foreach (var a in SystemEvents.OnStyleChanged)
+                a.Invoke();
         }
 
         public static void SetBackground(string path)

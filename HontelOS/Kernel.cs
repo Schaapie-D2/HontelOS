@@ -82,7 +82,7 @@ namespace HontelOS
                 fileSystem = new CosmosVFS();
                 VFSManager.RegisterVFS(fileSystem);
 
-                //Settings.Reset();
+                Settings.Reset();
                 Settings.Load();
 
                 // I don't know how to use the Cosmos Audio interface this correctly, i'll look into it later
@@ -150,7 +150,10 @@ namespace HontelOS
                 UpdateSystem();
 
                 // Drawing GUI
-                canvas.DrawImage(StyleManager.ScalledBackground, 0, 0, true);
+                if (appListVisable)
+                    canvas.DrawImage(StyleManager.BlurredBackground, 0, 0, true);
+                else
+                    canvas.DrawImage(StyleManager.ScalledBackground, 0, 0, true);
 
                 WindowManager.Draw();
 
@@ -200,7 +203,7 @@ namespace HontelOS
 
         void DrawAppList()
         {
-            canvas.DrawFilledRectangle(Color.FromArgb(64, 128, 128, 128), 0, 0, (int)screenWidth, (int)screenHeight);
+            
         }
 
         void DrawCursor(int[] cursor, uint x, uint y)

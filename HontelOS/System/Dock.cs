@@ -93,6 +93,8 @@ namespace HontelOS.System
 
                 if (Kernel.MouseClick())
                     Kernel.appListVisable = !Kernel.appListVisable;
+
+                IsDirty = true;
             }
 
             for (int i = 0; i < WindowManager.Windows.Count; i++)

@@ -19,9 +19,8 @@ namespace HontelOS.System.Graphics
     {
         public static Bitmap GenerateFastBlur(Bitmap bmp, int radial)
         {
-            var bm = bmp;
-            bm.FastBlur(radial);
-            return bm;
+            bmp.FastBlur(radial);
+            return bmp;
         }
 
         public static void FastBlur(this Bitmap bmp, int radial)

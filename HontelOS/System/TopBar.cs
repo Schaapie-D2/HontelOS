@@ -49,7 +49,9 @@ namespace HontelOS.System
                 return;
             }
 
-            c.DrawFilledRectangle(Style.TopBar_BackgroundColor, 0, 0, (int)Kernel.screenWidth, 32);
+            var BG = StyleManager.BlurredBackground.GetImage(0, 0, (int)Kernel.screenWidth, 32); BG.ModifyColor(Style.TopBar_BackgroundColor, 0.4f);
+            c.DrawImage(BG, 0, 0);
+            c.DrawLine(Color.Gray, 0, 31, (int)Kernel.screenWidth, 31);
             c.DrawImage(logo, 4, 4, 12, 24);
 
             string time = $"{RTC.Hour.ToString("00")}:{RTC.Minute.ToString("00")}";
@@ -63,7 +65,7 @@ namespace HontelOS.System
         {
             if (Kernel.MouseInArea(0, 0, (int)Kernel.screenWidth, 32))
             {
-                IsDirty = true;
+                //IsDirty = true;
 
                 if (Kernel.MouseInArea(0, 0, 32, 32) && Kernel.MouseClick())
                 {

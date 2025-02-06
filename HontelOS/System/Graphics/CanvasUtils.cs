@@ -79,16 +79,15 @@ namespace HontelOS.System.Graphics
             int w1 = (int)image.Width;
             int h1 = (int)image.Height;
             int[] temp = new int[width * height];
-
-            int xRatio = (w1 << 16) / width;
-            int yRatio = (h1 << 16) / height;
-
+            int xRatio = (int)((w1 << 16) / width) + 1;
+            int yRatio = (int)((h1 << 16) / height) + 1;
+            int x2, y2;
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    int x2 = (j * xRatio) >> 16;
-                    int y2 = (i * yRatio) >> 16;
+                    x2 = (j * xRatio) >> 16;
+                    y2 = (i * yRatio) >> 16;
                     temp[(i * width) + j] = pixels[(y2 * w1) + x2];
                 }
             }
@@ -184,9 +183,16 @@ namespace HontelOS.System.Graphics
 
             return blendedBitmap;
         }
-        // From Szymekk44's Waterfall-Core github repository
+        // From Szymekk44's Waterfall-Core github repository with modifications
         public static Bitmap GetImage(this Bitmap bmp, int x, int y, int width, int height)
         {
+            int widthCLeft = (int)(x + width - Kernel.screenWidth);
+            int heightCLeft = (int)(y + height - Kernel.screenHeight);
+            if (widthCLeft > 0)
+                width -= widthCLeft;
+            if (heightCLeft > 0)
+                height -= heightCLeft;
+
             Bitmap extractedImage = new Bitmap((uint)width, (uint)height, ColorDepth.ColorDepth32);
             for (int i = 0; i < height; i++)
             {
@@ -195,6 +201,50 @@ namespace HontelOS.System.Graphics
                 Array.Copy(bmp.RawData, bmpStartIndex, extractedImage.RawData, imageStartIndex, width);
             }
             return extractedImage;
+        }
+
+        // From Szymekk44's Waterfall-Core github repository
+        /// <summary>
+        /// Modifies the colors of the pixels in the bitmap, shifting them towards a target color with a specified intensity.
+        /// </summary>
+        /// <param name="bitmap">The bitmap to modify.</param>
+        /// <param name="targetColor">The target color to shift the pixels towards.</param>
+        /// <param name="intensity">The intensity of the color shift, ranging from 0.0f (no change) to 1.0f (full change).</param>
+        /// <returns>A new bitmap with the modified colors.</returns>
+        public static void ModifyColor(this Bitmap bitmap, Color targetColor, float intensity)
+        {
+            if (intensity < 0.0f || intensity > 1.0f)
+                return;
+
+            int[] originalData = bitmap.RawData;
+
+            int[] bmpData = new int[originalData.Length];
+            Array.Copy(originalData, bmpData, originalData.Length);
+
+            for (int i = 0; i < bmpData.Length; i++)
+            {
+                int color = bmpData[i];
+
+                byte a = (byte)((color >> 24) & 0xFF);
+                byte r = (byte)((color >> 16) & 0xFF);
+                byte g = (byte)((color >> 8) & 0xFF);
+                byte b = (byte)(color & 0xFF);
+
+                int deltaR = targetColor.R - r;
+                int deltaG = targetColor.G - g;
+                int deltaB = targetColor.B - b;
+
+                deltaR = (int)(deltaR * intensity);
+                deltaG = (int)(deltaG * intensity);
+                deltaB = (int)(deltaB * intensity);
+
+                r = (byte)Math.Max(0, Math.Min(255, r + deltaR));
+                g = (byte)Math.Max(0, Math.Min(255, g + deltaG));
+                b = (byte)Math.Max(0, Math.Min(255, b + deltaB));
+
+                bmpData[i] = (a << 24) | (r << 16) | (g << 8) | b;
+            }
+            bitmap.RawData = bmpData;
         }
     }
 }
