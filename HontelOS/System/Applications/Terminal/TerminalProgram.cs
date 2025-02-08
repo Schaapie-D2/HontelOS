@@ -26,6 +26,8 @@ namespace HontelOS.System.Applications.Terminal
 
         public string WorkingDirectory = "0:\\";
 
+        public List<ICommand> Commands = new List<ICommand>();
+
         public TerminalProgram() : base("Terminal", (int)Kernel.screenWidth / 2 - 450, (int)Kernel.screenHeight / 2 - 300, 900, 600)
         {
             WindowManager.Register(this);
@@ -41,6 +43,39 @@ namespace HontelOS.System.Applications.Terminal
                 console.Write(WorkingDirectory + "> ");
                 console.ReadLine();
             });
+
+            Commands.Add(new shutdown());
+            Commands.Add(new reboot());
+            Commands.Add(new msgbox());
+            Commands.Add(new ls());
+            Commands.Add(new lspci());
+            Commands.Add(new resetsettings());
+            Commands.Add(new showdir());
+            Commands.Add(new rm());
+            Commands.Add(new rmdir());
+            Commands.Add(new create());
+            Commands.Add(new createdir());
+        }
+
+        public void Help(string[] args)
+        {
+            var c = console;
+            if (args[0] == null)
+            {
+                foreach (var com in Commands)
+                    c.WriteLine($"{com.GetName()} = {com.GetHelpText()}");
+            }
+            else
+            {
+                foreach (var com in Commands)
+                {
+                    if(com.GetName() == args[0])
+                    {
+                        com.GetHelpText();
+                        break;
+                    }
+                }
+            }
         }
 
         public void ExecuteCommand(string fullCommand)
@@ -51,60 +86,32 @@ namespace HontelOS.System.Applications.Terminal
             if(args.Length == 0)
                 args = new string[] { null };
 
-            switch (command)
+            if(command == "help")
             {
-                case "shutdown": // shut device down
-                    Kernel.Shutdown();
-                    break;
-                case "reboot": // reboot device
-                    Kernel.Reboot();
-                    break;
-                case "msgbox": // display messagebox
-                    MSGBOX(args);
-                    break;
-                case "ls": // list directory
-                    LS();
-                    break;
-                case "lspci": // list PCI devices
-                    LSPCI();
-                    break;
-                case "resetsettings": // reset settings
-                    User.Settings.Reset();
-                    break;
-                case "showdir": // open Files in directory
-                    SHOWDIR(args[0]);
-                    break;
-                case "rm": // delete file
-                    RM(args[0]);
-                    break;
-                case "create": // create file
-                    CREATE(args[0]);
-                    break;
-                case "createdir": // create directory
-                    CREATEDIR(args[0]);
-                    break;
-                case "rmdir": // delete directory
-                    RMDIR(args[0]);
-                    break;
-                case "cd": // jump to
-                    CD(args[0]);
-                    break;
-                case "exit": // close terminal
-                    Close();
-                    break;
-                default:
-                    console.WriteLine($"Command '{command}' not found.");
-                    break;
+                Help(args);
+                return;
             }
-        }
+            else if (command == "cd")
+            {
+                CD(args[0]);
+                return;
+            }
+            else if(command == "exit")
+            {
+                Close();
+                return;
+            }
 
-        public void LSPCI()
-        {
-            console.WriteLine("PCI devices:");
-            foreach (var device in Cosmos.HAL.PCI.Devices)
+            foreach (var com in Commands)
             {
-                console.WriteLine($"Vendor: {device.VendorID:X4} Device: {device.DeviceID:X4} Class: {device.ClassCode:X2} Subclass: {device.Subclass:X2} ProgIF: {device.ProgIF:X2}");
+                if (com.GetName() == command)
+                {
+                    com.Execute(args, this);
+                    return;
+                }
             }
+
+            console.WriteLine($"Command '{command}' not found.");
         }
 
         public string[] RestoreArgs(string[] args)
@@ -163,72 +170,6 @@ namespace HontelOS.System.Applications.Terminal
                 else
                     console.WriteLine("Directory not found.");
             }
-        }
-
-        public void RM(string path)
-        {
-            if (File.Exists(Path.Combine(WorkingDirectory, path)))
-                File.Delete(Path.Combine(WorkingDirectory, path));
-            else if (File.Exists(path))
-                File.Delete(path);
-            else
-                console.WriteLine("File not found.");
-        }
-
-        public void RMDIR(string path)
-        {
-            if (path == null)
-            {
-                Directory.Delete(WorkingDirectory);
-                CD("..");
-            }
-            else if (Directory.Exists(path))
-            {
-                Directory.Delete(path);
-                CD("..");
-            }
-            else
-                console.WriteLine("Directory not found.");
-        }
-
-        public void SHOWDIR(string path)
-        {
-            if (path == null)
-                new FilesProgram(WorkingDirectory);
-            else if (Directory.Exists(path))
-                new FilesProgram(path);
-            else
-                console.WriteLine("Directory not found.");
-        }
-
-        public void LS()
-        {
-            foreach (string dir in Directory.GetDirectories(WorkingDirectory))
-                console.WriteLine(dir);
-            foreach (string file in Directory.GetFiles(WorkingDirectory))
-                console.WriteLine(file);
-        }
-
-        public void MSGBOX(string[] args)
-        {
-            if(args.Length < 3)
-            {
-                console.WriteLine("Usage: msgbox <title> <message> <buttons (0 - 7)>");
-                return;
-            }
-
-            new MessageBox(args[0], args[1], null, (MessageBoxButtons)int.Parse(args[2]));
-        }
-
-        public void CREATE(string filename)
-        {
-            var str = File.Create(Path.Combine(WorkingDirectory, filename));
-            str.Dispose();
-        }
-
-        public void CREATEDIR(string dirname)
-        {
-            Directory.CreateDirectory(Path.Combine(WorkingDirectory, dirname));
         }
     }
 }
