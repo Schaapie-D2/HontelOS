@@ -11,13 +11,10 @@
 */
 
 using HontelOS.System.Graphics;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Cosmos.System;
-using HontelOS.System.Applications.Files;
 
 namespace HontelOS.System.Applications.Terminal
 {

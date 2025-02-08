@@ -31,7 +31,7 @@ namespace HontelOS.System.Graphics
             window.WID = WIDcounter;
             Windows.Add(WIDcounter, window);
             SetFocused(WIDcounter);
-            foreach(var a in OnWindowsListUpdate) a.Invoke();
+            foreach (var a in OnWindowsListUpdate) a.Invoke();
             return WIDcounter;
         }
 

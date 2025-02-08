@@ -82,22 +82,8 @@ namespace HontelOS
                 fileSystem = new CosmosVFS();
                 VFSManager.RegisterVFS(fileSystem);
 
-                Settings.Reset();
+                //Settings.Reset();
                 Settings.Load();
-
-                // I don't know how to use the Cosmos Audio interface this correctly, i'll look into it later
-                audioMixer = new AudioMixer();
-                audioDriver = AudioDriverExt.GetAudioDriver();
-                if (audioDriver != null)
-                {
-                    audioDriver.SetSampleFormat(new SampleFormat(AudioBitDepth.Bits16, 2, true));
-                    audioManager = new AudioManager()
-                    {
-                        Stream = audioMixer,
-                        Output = audioDriver
-                    };
-                    audioManager.Enable();
-                }
 
                 string resFromSettings = Settings.Get("Resolution");
                 if (resFromSettings != null)
@@ -112,6 +98,20 @@ namespace HontelOS
                 // Boot progress image
                 canvas.DrawImage(logo, (int)screenWidth / 2 - (int)screenHeight / 8, (int)screenHeight / 2 - (int)screenHeight / 8, (int)screenHeight / 4, (int)screenHeight / 4);
                 canvas.Display();
+
+                // I don't know how to use the Cosmos Audio interface this correctly, i'll look into it later
+                audioMixer = new AudioMixer();
+                audioDriver = AudioDriverExt.GetAudioDriver();
+                if (audioDriver != null)
+                {
+                    audioDriver.SetSampleFormat(new SampleFormat(AudioBitDepth.Bits16, 2, true));
+                    audioManager = new AudioManager()
+                    {
+                        Stream = audioMixer,
+                        Output = audioDriver
+                    };
+                    audioManager.Enable();
+                }
 
                 audioMixer.Streams.Add(ResourceManager.BootSound);
 
