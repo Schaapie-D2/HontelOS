@@ -49,7 +49,7 @@ namespace HontelOS.System
                 return;
             }
 
-            var BG = StyleManager.BlurredBackground.GetImage(0, 0, (int)Kernel.screenWidth, 32); BG.ModifyColor(Style.TopBar_BackgroundColor, 0.4f);
+            var BG = StyleManager.BlurredBackground.GetImage(0, 0, (int)Kernel.screenWidth, 32); BG.ModifyColor(Style.TopBar_BackgroundColor, 0.2f);
             c.DrawImage(BG, 0, 0);
             c.DrawLine(Color.Gray, 0, 31, (int)Kernel.screenWidth, 31);
             c.DrawImage(logo, 4, 4, 12, 24);
