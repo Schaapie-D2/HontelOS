@@ -62,16 +62,6 @@ namespace HontelOS.System.Graphics
             c.DrawFilledCircle(color, x + radius, y + height - radius - 1, radius);
             c.DrawFilledCircle(color, x + width - radius - 1, y + height - radius - 1, radius);
         }
-        // From Szymekk44's Cosmos fork with modifications
-        public static Bitmap GetImage(this Canvas c, int x, int y, int width, int height)
-        {
-            Bitmap bitmap = new((uint)width, (uint)height, ColorDepth.ColorDepth32);
-
-            for (int posy = y, desty = 0; posy < y + height; posy++, desty++)
-                for (int posx = x, destx = 0; posx < x + width; posx++, destx++)
-                    bitmap.RawData[desty * width + destx] = c.GetPointColor(posx, posy).ToArgb();
-            return bitmap;
-        }
 
         public static Bitmap ScaleImage(Image image, int width, int height)
         {

@@ -16,7 +16,7 @@
 - Networking (HTTP)
 
 # Screenshots
-<p align="center"><img src="https://raw.githubusercontent.com/Schaapie-D2/HontelOS/refs/heads/main/Art/Archive/0.1.0/Screenshot-1.png"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Schaapie-D2/HontelOS/refs/heads/main/Art/Archive/0.2.0/Screenshot-1.png"></p>
 
 # How to run
 
@@ -37,6 +37,9 @@ We currently don't have a guide for VirtualBox, but you can try to follow the VM
 Do not use HontelOS on real hardware; improper usage of the VFS or bugs/unintended behavior can irrevocably corrupt existing files on your hard drive(s). The VFS implementation of Cosmos is still under construction and should be regarded as unstable. For testing, it's recommended to use a virtual machine!
 
 Please see [this page](https://github.com/CosmosOS/Cosmos/wiki/Deploy-%28install%29-Cosmos-on-physical-Hardware) for instructions on how to deploy HontelOS on real hardware.
+
+# Hardware requirements
+- 512 MB Ram
 
 # Known issues
 - The OS might crash under heavy load or when running for a long time.
