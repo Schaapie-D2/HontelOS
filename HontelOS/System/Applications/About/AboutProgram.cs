@@ -14,6 +14,7 @@ using System.Drawing;
 using HontelOS.System.Graphics.Controls;
 using Cosmos.Core;
 using HontelOS.System.Graphics;
+using HontelOS.System.Conversion;
 
 namespace HontelOS.System.Applications.About
 {

@@ -1,6 +1,6 @@
 ﻿/*
 * PROJECT:          HontelOS
-* CONTENT:          Convertion
+* CONTENT:          Conversion
 * PROGRAMMERS:      Jort van Dalen
 * 
 * Copyright (c) 2025 Jort van Dalen
@@ -12,7 +12,7 @@
 
 using System.Text;
 
-namespace HontelOS.System.Misc
+namespace HontelOS.System.Conversion
 {
     public static class Conversion
     {
@@ -28,9 +28,9 @@ namespace HontelOS.System.Misc
             for (int i = offset; i < length + offset; i++)
             {
                 b = value[i] >> 4;
-                builder.Append((char)(55 + b + (((b - 10) >> 31) & -7)));
+                builder.Append((char)(55 + b + (b - 10 >> 31 & -7)));
                 b = value[i] & 0xF;
-                builder.Append((char)(55 + b + (((b - 10) >> 31) & -7)));
+                builder.Append((char)(55 + b + (b - 10 >> 31 & -7)));
             }
             return builder.ToString();
         }

@@ -12,7 +12,7 @@
 
 using System;
 
-namespace HontelOS.System
+namespace HontelOS.System.Conversion
 {
     public class StorageSizeConverter
     {

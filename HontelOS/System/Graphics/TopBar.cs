@@ -18,11 +18,10 @@ using HontelOS.System.Applications.Files;
 using HontelOS.System.Applications.Terminal;
 using System.Drawing;
 using Cosmos.HAL;
-using HontelOS.System.Graphics;
 using HontelOS.System.Graphics.Controls;
 using HontelOS.System.Applications.Settings;
 
-namespace HontelOS.System
+namespace HontelOS.System.Graphics
 {
     public class TopBar
     {

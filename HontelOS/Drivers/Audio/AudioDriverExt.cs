@@ -25,21 +25,8 @@ namespace HontelOS.Drivers.Audio
             Console.WriteLine("Detecting audio devices...");
             foreach (var pci in PCI.Devices)
             {
-                // Intel HD Audio devices
-                if (pci.VendorID == 0x8086 &&  // Intel
-                    (pci.DeviceID == 0x2804 || // Intel 82801I (ICH9 Family) HD Audio Controller
-                    pci.DeviceID == 0x2812 ||  // Intel 82801H (ICH8 Family) HD Audio Controller
-                    pci.DeviceID == 0x1C20 ||  // Intel 6 Series/C200 Series Chipset HD Audio Controller
-                    pci.DeviceID == 0x1C21 ||  // Intel 7 Series/C210 Series Chipset HD Audio Controller
-                    pci.DeviceID == 0x8C20 ||  // Intel 9 Series Chipset HD Audio Controller
-                    pci.DeviceID == 0xA170 ||  // Intel Skylake U/D/Y Series HD Audio Controller
-                    pci.DeviceID == 0xA1C0))   // Intel Kaby Lake HD Audio Controller
-                {
-                    Console.WriteLine("Found Intel HD Audio device");
-                    return IntelHDAudio.Initialize(4096);
-                }
                 // AC'97 Audio devices
-                else if ((pci.VendorID == 0x8086 && // Intel
+                if ((pci.VendorID == 0x8086 && // Intel
                     (pci.DeviceID == 0x24C6 ||      // Intel 82801AB AC'97 Audio Controller
                     pci.DeviceID == 0x24C7 ||       // Intel 82801AC AC'97 Audio Controller
                     pci.DeviceID == 0x24D5 ||       // Intel 82801BA AC'97 Audio Controller
@@ -55,6 +42,31 @@ namespace HontelOS.Drivers.Audio
                 {
                     Console.WriteLine("Found AC'97 Audio device");
                     return AC97.Initialize(4096);
+                }
+                else if (pci.VendorID == 0x1274 && // Ensoniq / Creative Labs
+                    (pci.DeviceID == 0x1371 ||     // Ensoniq ES1371 AudioPCI
+                    pci.DeviceID == 0x5000 ||      // Ensoniq ES1370 AudioPCI
+                    pci.DeviceID == 0x5880 ||      // Creative Sound Blaster AudioPCI 64V
+                    pci.DeviceID == 0x5882 ||      // Creative Sound Blaster PCI128
+                    pci.DeviceID == 0x5883 ||      // Creative Sound Blaster Live!
+                    pci.DeviceID == 0x8938 ||      // Creative SB PCI 128 CT4750
+                    pci.DeviceID == 0x8939))       // Creative Sound Blaster PCI128 CT4700
+                {
+                    Console.WriteLine("Found ES1371 Audio Device");
+                    //return ES1371.Initialize(4096);
+                }
+                // Intel HD Audio devices
+                else if (pci.VendorID == 0x8086 &&  // Intel
+                    (pci.DeviceID == 0x2804 || // Intel 82801I (ICH9 Family) HD Audio Controller
+                    pci.DeviceID == 0x2812 ||  // Intel 82801H (ICH8 Family) HD Audio Controller
+                    pci.DeviceID == 0x1C20 ||  // Intel 6 Series/C200 Series Chipset HD Audio Controller
+                    pci.DeviceID == 0x1C21 ||  // Intel 7 Series/C210 Series Chipset HD Audio Controller
+                    pci.DeviceID == 0x8C20 ||  // Intel 9 Series Chipset HD Audio Controller
+                    pci.DeviceID == 0xA170 ||  // Intel Skylake U/D/Y Series HD Audio Controller
+                    pci.DeviceID == 0xA1C0))   // Intel Kaby Lake HD Audio Controller
+                {
+                    Console.WriteLine("Found Intel HD Audio device");
+                    return IntelHDAudio.Initialize(4096);
                 }
                 // Sound Blaster 16 PCI devices
                 else if (pci.VendorID == 0x1102 && // Creative Labs

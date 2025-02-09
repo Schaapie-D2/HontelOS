@@ -15,11 +15,8 @@
 * MODIFIED BY:      Jort van Dalen
 */
 
-using Cosmos.Common.Extensions;
-using HontelOS.System.Misc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace HontelOS.System.Security
@@ -51,7 +48,7 @@ namespace HontelOS.System.Security
         {
             var hash = new SHA256();
             hash.AddData(value, 0, (uint)value.Length);
-            string toreturn = Conversion.Hex(hash.GetHash());
+            string toreturn = Conversion.Conversion.Hex(hash.GetHash());
 
             //Clear variables
             H[0] = 0x6A09E667;

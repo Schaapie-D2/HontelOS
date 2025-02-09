@@ -12,12 +12,11 @@
 
 using Cosmos.System.Graphics;
 using HontelOS.Resources;
-using HontelOS.System.Graphics;
 using HontelOS.System.Graphics.Controls;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HontelOS.System
+namespace HontelOS.System.Graphics
 {
     public class Dock
     {

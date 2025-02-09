@@ -33,6 +33,7 @@ using Cosmos.System.Audio;
 using HontelOS.Drivers.Audio;
 using Cosmos.HAL.Audio;
 using Cosmos.HAL;
+using HontelOS.System.Conversion;
 
 namespace HontelOS
 {
