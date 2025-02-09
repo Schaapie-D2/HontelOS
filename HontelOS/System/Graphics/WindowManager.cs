@@ -40,7 +40,7 @@ namespace HontelOS.System.Graphics
             if (Windows.ContainsKey(WID))
             {
                 Windows.Remove(WID);
-                FocusedWindow = Windows.Keys.Last();
+                FocusedWindow = Windows.Keys.LastOrDefault();
                 foreach (var a in OnWindowsListUpdate) a.Invoke();
             }
         }
