@@ -4,6 +4,6 @@ namespace HontelOS.System
     {
 	    public static string Description = "This is a test version.";
         public static string Version = "0.2.0";
-		public static string VersionNumber = "202502091832";
+		public static string VersionNumber = "202502091947";
     }
 }

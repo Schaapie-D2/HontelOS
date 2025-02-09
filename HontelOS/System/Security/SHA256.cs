@@ -16,7 +16,7 @@
 */
 
 using Cosmos.Common.Extensions;
-using Microsoft.VisualBasic;
+using HontelOS.System.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,8 +51,7 @@ namespace HontelOS.System.Security
         {
             var hash = new SHA256();
             hash.AddData(value, 0, (uint)value.Length);
-            string toreturn = BitConverter.ToString(hash.GetHash()).Replace("-", "");
-            //string toreturn = Conversion.Hex(hash.GetHash());
+            string toreturn = Conversion.Hex(hash.GetHash());
 
             //Clear variables
             H[0] = 0x6A09E667;
@@ -65,7 +64,6 @@ namespace HontelOS.System.Security
             H[7] = 0x5BE0CD19;
 
             return toreturn;
-
         }
 
         private static UInt32 ROTL(UInt32 x, byte n)
