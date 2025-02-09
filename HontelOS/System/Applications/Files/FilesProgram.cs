@@ -102,7 +102,11 @@ namespace HontelOS.System.Applications.Files
         {
             if (itemsList.SelectedIndex != -1)
             {
-                File.Delete(Path.Combine(workingDirectory, itemsList.Items[itemsList.SelectedIndex]));
+                string path = Path.Combine(workingDirectory, itemsList.Items[itemsList.SelectedIndex]);
+                if (File.Exists(path))
+                    File.Delete(path);
+                if(Directory.Exists(path))
+                    Directory.Delete(path, true);
                 oldWorkingDirectory = "";
             }  
         }
@@ -140,6 +144,9 @@ namespace HontelOS.System.Applications.Files
             {
                 case ".txt":
                     new TextEditor.TextEditorProgram(path);
+                    break;
+                case ".bmp":
+                    new ImageViewer.ImageViewerProgram(path);
                     break;
                 default:
                     new TextEditor.TextEditorProgram(path);

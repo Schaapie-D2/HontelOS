@@ -16,6 +16,6 @@ namespace HontelOS.System.Applications.Terminal
     {
         public void Execute(string[] args, TerminalProgram terminal);
         public string GetHelpText();
-        public string GetName();
+        public string GetCMDName();
     }
 }

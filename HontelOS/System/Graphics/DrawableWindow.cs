@@ -125,8 +125,7 @@ namespace HontelOS.System.Graphics
                 c.DrawRectangle(Color.Black, X - 1, Y - 1, Width + 1, Height + 1);
             }
 
-            if (IsDirty)
-                Draw(canvas);
+            Draw(canvas);
 
             IsDirty = false;
         }

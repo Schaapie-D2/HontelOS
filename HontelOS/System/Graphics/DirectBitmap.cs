@@ -4,6 +4,7 @@
 * PROGRAMMERS:      Valentin Charbonnier <valentinbreiz@gmail.com>
 * MODIFIED BY:      Jort van Dalen
 * 
+* Copyright (c) 2021, Aura Team, Aura Operating System
 * Copyright (c) 2025 Jort van Dalen
 * 
 * This code is licensed under the BSD 3-Clause License.

@@ -74,18 +74,33 @@ namespace HontelOS.System.User
 
         public static void Delete(string username)
         {
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+            if (!File.Exists(path))
+            { File.WriteAllText(path, null); return; }
+
             var usersFile = File.ReadAllLines(path);
             List<string> newFile = new List<string>();
 
             foreach (string line in usersFile)
                 if (line.Split(';')[0] != username)
                     newFile.Add(line);
+                else
+                    Directory.Delete(Path.Combine(directory, username), true);
+
+            if (newFile.Count == 0)
+                newFile.Add("");
 
             File.WriteAllLines(path, newFile.ToArray());
         }
 
         public static string[] GetUsers()
         {
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+            if (!File.Exists(path))
+            { File.WriteAllText(path, null); return Array.Empty<string>(); }
+
             var usersFile = File.ReadAllLines(path);
             List<string> users = new List<string>();
 

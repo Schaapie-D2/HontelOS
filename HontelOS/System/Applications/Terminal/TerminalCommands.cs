@@ -12,6 +12,7 @@
 
 using HontelOS.System.Applications.Files;
 using HontelOS.System.Graphics;
+using HontelOS.System.User;
 using System.IO;
 
 namespace HontelOS.System.Applications.Terminal
@@ -23,7 +24,7 @@ namespace HontelOS.System.Applications.Terminal
             Kernel.Shutdown();
         }
 
-        public string GetName() => "shutdown";
+        public string GetCMDName() => "shutdown";
         public string GetHelpText() => "shutsdown the OS";
     }
     public class reboot : ICommand
@@ -33,7 +34,7 @@ namespace HontelOS.System.Applications.Terminal
             Kernel.Reboot();
         }
 
-        public string GetName() => "reboot";
+        public string GetCMDName() => "reboot";
         public string GetHelpText() => "reboots the OS";
     }
     public class msgbox : ICommand
@@ -49,7 +50,7 @@ namespace HontelOS.System.Applications.Terminal
             new MessageBox(args[0], args[1], null, (MessageBoxButtons)int.Parse(args[2]));
         }
 
-        public string GetName() => "msgbox";
+        public string GetCMDName() => "msgbox";
         public string GetHelpText() => "displays a message box";
     }
     public class ls : ICommand
@@ -64,7 +65,7 @@ namespace HontelOS.System.Applications.Terminal
                 c.WriteLine(file);
         }
 
-        public string GetName() => "ls";
+        public string GetCMDName() => "ls";
         public string GetHelpText() => "lists the content of a directory";
     }
     public class lspci : ICommand
@@ -79,7 +80,7 @@ namespace HontelOS.System.Applications.Terminal
             }
         }
 
-        public string GetName() => "lspci";
+        public string GetCMDName() => "lspci";
         public string GetHelpText() => "lists all PCI devices on the device";
     }
     public class resetsettings : ICommand
@@ -89,7 +90,7 @@ namespace HontelOS.System.Applications.Terminal
             User.Settings.Reset();
         }
 
-        public string GetName() => "resetsettings";
+        public string GetCMDName() => "resetsettings";
         public string GetHelpText() => "resets the system settings";
     }
     public class showdir : ICommand
@@ -107,7 +108,7 @@ namespace HontelOS.System.Applications.Terminal
                 c.WriteLine("Directory not found.");
         }
 
-        public string GetName() => "showdir";
+        public string GetCMDName() => "showdir";
         public string GetHelpText() => "opens the directory in Files";
     }
     public class rm : ICommand
@@ -125,7 +126,7 @@ namespace HontelOS.System.Applications.Terminal
                 c.WriteLine("File not found.");
         }
 
-        public string GetName() => "rm";
+        public string GetCMDName() => "rm";
         public string GetHelpText() => "deletes a file";
     }
     public class create : ICommand
@@ -138,7 +139,7 @@ namespace HontelOS.System.Applications.Terminal
             str.Dispose();
         }
 
-        public string GetName() => "create";
+        public string GetCMDName() => "create";
         public string GetHelpText() => "creates a file";
     }
     public class createdir : ICommand
@@ -150,7 +151,7 @@ namespace HontelOS.System.Applications.Terminal
             Directory.CreateDirectory(Path.Combine(WD, dirname));
         }
 
-        public string GetName() => "createdir";
+        public string GetCMDName() => "createdir";
         public string GetHelpText() => "creates a directory";
     }
     public class rmdir : ICommand
@@ -174,7 +175,55 @@ namespace HontelOS.System.Applications.Terminal
                 c.WriteLine("Directory not found.");
         }
 
-        public string GetName() => "rmdir";
+        public string GetCMDName() => "rmdir";
         public string GetHelpText() => "deletes a directory";
+    }
+    public class user : ICommand
+    {
+        public void Execute(string[] args, TerminalProgram terminal)
+        {
+            var action = args[0];
+            var username = args[1];
+            string password = args[2];
+            var c = terminal.console;
+
+            if (action == "-create")
+            {
+                if (username == null)
+                {
+                    c.WriteLine("username was not given");
+                    return;
+                }
+                if (password == null)
+                {
+                    c.WriteLine("password was not given");
+                    return;
+                }
+
+                User.User.Create(username, password);
+            }
+            else if (action == "-delete")
+            {
+                if (username == null)
+                {
+                    c.WriteLine("username was not given");
+                    return;
+                }
+
+                User.User.Delete(username);
+            }
+            else if (action == "-list")
+            {
+                foreach(string user in User.User.GetUsers())
+                    c.WriteLine(user);
+            }
+            else
+            {
+                c.WriteLine("Usage: user <-create or -delete> <username> <password (only when using -create)>");
+            }
+        }
+
+        public string GetCMDName() => "user";
+        public string GetHelpText() => "create and delete a user";
     }
 }

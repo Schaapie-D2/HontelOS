@@ -26,6 +26,8 @@
 		<OptimizationLevel>3</OptimizationLevel>
 		<CompileVBEMultiboot>True</CompileVBEMultiboot>
 		<VBEResolution>1920x1080x32</VBEResolution>
+		<UseUEFI>True</UseUEFI>
+		<CompressionType>Gzip</CompressionType>
 	</PropertyGroup>
 
 	<PropertyGroup>

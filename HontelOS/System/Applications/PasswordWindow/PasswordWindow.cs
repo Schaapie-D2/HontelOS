@@ -36,7 +36,7 @@ namespace HontelOS.System.Applications.PasswordWindow
 
             void CheckPasword()
             {
-                if (username.Text == "Admin" && password.Text == "HontelOS")
+                if ((username.Text == "Admin" && password.Text == "HontelOS") || User.User.Login(username.Text, password.Text))
                 {
                     Kernel.isUnlocked = true;
                     ForceClose();

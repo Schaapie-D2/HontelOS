@@ -52,23 +52,24 @@ namespace HontelOS.System.Applications.Terminal
             Commands.Add(new rmdir());
             Commands.Add(new create());
             Commands.Add(new createdir());
+            Commands.Add(new user());
         }
 
-        public void Help(string[] args)
+        public void Help(string arg)
         {
             var c = console;
-            if (args[0] == null)
+            if (arg == null)
             {
                 foreach (var com in Commands)
-                    c.WriteLine($"{com.GetName()} = {com.GetHelpText()}");
+                    c.WriteLine($"{com.GetCMDName()} = {com.GetHelpText()}");
             }
             else
             {
                 foreach (var com in Commands)
                 {
-                    if(com.GetName() == args[0])
+                    if(com.GetCMDName() == arg)
                     {
-                        com.GetHelpText();
+                        c.WriteLine(com.GetHelpText());
                         break;
                     }
                 }
@@ -83,25 +84,22 @@ namespace HontelOS.System.Applications.Terminal
             if(args.Length == 0)
                 args = new string[] { null };
 
-            if(command == "help")
+            switch(command)
             {
-                Help(args);
-                return;
-            }
-            else if (command == "cd")
-            {
-                CD(args[0]);
-                return;
-            }
-            else if(command == "exit")
-            {
-                Close();
-                return;
+                case "help":
+                    Help(args[0]);
+                    return;
+                case "cd":
+                    CD(args[0]);
+                    return;
+                case "exit":
+                    Close();
+                    return;
             }
 
             foreach (var com in Commands)
             {
-                if (com.GetName() == command)
+                if (com.GetCMDName() == command)
                 {
                     com.Execute(args, this);
                     return;

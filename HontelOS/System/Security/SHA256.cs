@@ -11,12 +11,15 @@
 /*
 * PROJECT:          HontelOS
 * CONTENT:          SHA256 hashing algorithm
-* PROGRAMMERS:      Yuri K. Schlesner, Jort van Dalen
+* PROGRAMMERS:      Yuri K. Schlesner
+* MODIFIED BY:      Jort van Dalen
 */
 
+using Cosmos.Common.Extensions;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace HontelOS.System.Security
@@ -48,7 +51,8 @@ namespace HontelOS.System.Security
         {
             var hash = new SHA256();
             hash.AddData(value, 0, (uint)value.Length);
-            string toreturn = Conversion.Hex(hash.GetHash());
+            string toreturn = BitConverter.ToString(hash.GetHash()).Replace("-", "");
+            //string toreturn = Conversion.Hex(hash.GetHash());
 
             //Clear variables
             H[0] = 0x6A09E667;
