@@ -24,6 +24,9 @@ namespace HontelOS.System.Graphics
         public int OffsetX { get; set; }
         public int OffsetY { get; set; }
         public bool IsDirty { get; set; } = true;
+        public bool IsVisible { get; set; }
+
+        public bool FullRedrawNeeded = true;
 
         public Window Window;
 
@@ -32,27 +35,35 @@ namespace HontelOS.System.Graphics
             Title = title;
             Window = window;
             canvas = window.canvas;
+
+            SystemEvents.OnStyleChanged.Add(() => FullRedrawNeeded = true);
         }
 
         public void Draw()
         {
             foreach (Control control in Controls)
-                control.Draw();
+                if(control.IsDirty || FullRedrawNeeded)
+                    control.Draw();
 
             IsDirty = false;
+            FullRedrawNeeded = false;
         }
 
         public void Update()
         {
             ContainerX = Window.ContainerX;
             ContainerY = Window.ContainerY;
+            IsVisible = Window.IsVisible;
 
             OffsetX = 0; OffsetY = 0;
             if (Window.Pages.Count > 1)
                 OffsetX = Window.NavBar.Width;
 
             foreach (Control control in Controls)
+            {
                 control.Update();
+                if (control.IsDirty) IsDirty = true;
+            }
 
             Window.IsDirty = IsDirty;
         }

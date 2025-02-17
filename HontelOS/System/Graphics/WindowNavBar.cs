@@ -22,6 +22,7 @@ namespace HontelOS.System.Graphics
         public int Height;
 
         private int itemSize = 24;
+        int oldHoverItem = -1;
 
         public WindowNavBar(Window window)
         {
@@ -65,19 +66,27 @@ namespace HontelOS.System.Graphics
         public void Update()
         {
             var Items = Window.Pages;
-            if (Items.Count <= 1) return;
+            if (Items.Count <= 1 || !Window.IsVisible) return;
 
-            for (int i = 0; i < Items.Count; i++)
+            if(Kernel.MouseInArea(Window.ContainerX - Width, Window.ContainerY, Window.ContainerX, Window.ContainerY + Height))
             {
-                int posY = 5 + i * (itemSize + 5);
-
-                if (Kernel.MouseInArea(Window.ContainerX - Width + 5, Window.ContainerY + posY, Window.ContainerX - 5, Window.ContainerY + posY + itemSize))
+                for (int i = 0; i < Items.Count; i++)
                 {
-                    Window.IsDirty = true;
-                    if (Kernel.MouseClick())
-                        Window.CurrentPage = i;
+                    int posY = 5 + i * (itemSize + 5);
+
+                    if (Kernel.MouseInArea(Window.ContainerX - Width + 5, Window.ContainerY + posY, Window.ContainerX - 5, Window.ContainerY + posY + itemSize))
+                    {
+                        if (oldHoverItem != i)
+                            Window.IsDirty = true;
+
+                        oldHoverItem = i;
+
+                        if (Kernel.MouseClick())
+                            Window.CurrentPage = i;
+
+                        break;
+                    }
                 }
-            
             }
         }
 

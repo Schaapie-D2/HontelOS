@@ -10,7 +10,7 @@
 
 	<PropertyGroup>
 		<EnableGDB>False</EnableGDB>
-		<StartCosmosGDB>True</StartCosmosGDB>
+		<StartCosmosGDB>False</StartCosmosGDB>
 		<VisualStudioDebugPort>Pipe: Cosmos\Serial</VisualStudioDebugPort>
 		<CosmosDebugPort>Serial: COM1</CosmosDebugPort>
 		<Launch>VMware</Launch>
@@ -24,7 +24,7 @@
 		<RemoveBootDebugOutput>True</RemoveBootDebugOutput>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<OptimizationLevel>3</OptimizationLevel>
-		<CompileVBEMultiboot>True</CompileVBEMultiboot>
+		<CompileVBEMultiboot>False</CompileVBEMultiboot>
 		<VBEResolution>1920x1080x32</VBEResolution>
 		<UseUEFI>True</UseUEFI>
 		<CompressionType>Gzip</CompressionType>

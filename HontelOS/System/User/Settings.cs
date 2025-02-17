@@ -37,14 +37,24 @@ namespace HontelOS.System.User
             File.WriteAllLines(path, Default);
         }
 
-        public static void Load()
+        public static void Load(bool forceDefault)
         {
-            if (!Directory.Exists(directory))
-                Directory.CreateDirectory(directory);
-            if (!File.Exists(path))
-                File.WriteAllLines(path, Default);
+            string[] settingsFile;
 
-            string[] settingsFile = File.ReadAllLines(path);
+            if (forceDefault)
+            {
+                settingsFile = Default;
+            }
+            else
+            {
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+                if (!File.Exists(path))
+                    File.WriteAllLines(path, Default);
+
+                settingsFile = File.ReadAllLines(path);
+            }
+            
             foreach (string line in settingsFile)
             {
                 string[] sp = line.Split(';');

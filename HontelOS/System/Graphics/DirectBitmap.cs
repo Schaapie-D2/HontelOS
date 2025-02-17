@@ -1,10 +1,11 @@
 ﻿/*
 * PROJECT:          HontelOS
 * CONTENT:          Direct bitmap (used for compositing)
-* PROGRAMMERS:      Valentin Charbonnier <valentinbreiz@gmail.com>
-* MODIFIED BY:      Jort van Dalen
+* PROGRAMMERS:      Jort van Dalen
+*
+* USES CODE FROM:
+* https://github.com/aura-systems/Aura-Operating-System
 * 
-* Copyright (c) 2021, Aura Team, Aura Operating System
 * Copyright (c) 2025 Jort van Dalen
 * 
 * This code is licensed under the BSD 3-Clause License.
@@ -500,19 +501,34 @@ namespace HontelOS.System.Graphics
         /// <param name="radius">The radius of the circle to draw.</param>
         public void DrawFilledCircle(Color color, int x0, int y0, int radius)
         {
-            for (int y = -radius; y <= radius; y++)
+            int x = radius;
+            int y = 0;
+            int xChange = 1 - (radius << 1);
+            int yChange = 0;
+            int radiusError = 0;
+
+            while (x >= y)
             {
-                for (int x = -radius; x <= radius; x++)
+                for (int i = x0 - x; i <= x0 + x; i++)
                 {
-                    if (x * x + y * y <= radius * radius)
-                    {
-                        int drawX = x0 + x;
-                        int drawY = y0 + y;
-                        if (drawX >= 0 && drawX < Width && drawY >= 0 && drawY < Height)
-                        {
-                            SetPixelAlpha(drawX, drawY, color);
-                        }
-                    }
+
+                    SetPixel(i, y0 + y, color);
+                    SetPixel(i, y0 - y, color);
+                }
+                for (int i = x0 - y; i <= x0 + y; i++)
+                {
+                    SetPixel(i, y0 + x, color);
+                    SetPixel(i, y0 - x, color);
+                }
+
+                y++;
+                radiusError += yChange;
+                yChange += 2;
+                if ((radiusError << 1) + xChange > 0)
+                {
+                    x--;
+                    radiusError += xChange;
+                    xChange += 2;
                 }
             }
         }

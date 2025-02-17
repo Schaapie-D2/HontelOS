@@ -22,6 +22,7 @@ namespace HontelOS.System.Graphics
         public int OffsetX { get; set; }
         public int OffsetY { get; set; }
         public bool IsDirty { get; set; }
+        public bool IsVisible { get; set; }
         public DirectBitmap canvas { get; set; }
     }
 }

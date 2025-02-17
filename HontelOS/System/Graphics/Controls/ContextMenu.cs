@@ -58,11 +58,11 @@ namespace HontelOS.System.Graphics.Controls
         {
             if(Kernel.MouseInArea(x, y, x + width, y + items.Length * 18))
             {
-                for (int i = 0; i < items.Length; i++)
+                if (Kernel.MouseClick())
                 {
-                    if (Kernel.MouseInArea(x, y + i * 16, x + width, y + 16 + i * 18))
+                    for (int i = 0; i < items.Length; i++)
                     {
-                        if (Kernel.MouseClick())
+                        if (Kernel.MouseInArea(x, y + i * 16, x + width, y + 16 + i * 18))
                         {
                             actions[i]?.Invoke(i);
                             Kernel.systemControls.Remove(this);

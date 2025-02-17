@@ -23,7 +23,7 @@ namespace HontelOS.System.Graphics
         public int Y { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public bool IsVisable { get; set; }
+        public bool IsVisible { get; set; }
         public bool CanClose { get; set; }
         public bool IsDirty { get; set; }
 

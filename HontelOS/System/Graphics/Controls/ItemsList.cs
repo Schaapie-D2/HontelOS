@@ -32,11 +32,16 @@ namespace HontelOS.System.Graphics.Controls
         {
             Items = items;
 
+            OnClick.Add(() => IsDirty = true);
+            OnEndClick.Add(() => IsDirty = true);
+            OnStartHover.Add(() => IsDirty = true);
+            OnEndHover.Add(() => IsDirty = true);
+            OnMouseMove.Add(() => IsDirty = true);
+
             X = x;
             Y = y;
             Width = width;
             Height = height;
-            OnMouseMove.Add(() => Container.IsDirty = true);
         }
 
         public override void Draw()
@@ -92,7 +97,7 @@ namespace HontelOS.System.Graphics.Controls
                 if((key == ConsoleKeyEx.UpArrow || key == ConsoleKeyEx.DownArrow) && SelectedIndex >= Items.Count)
                     SelectedIndex = Items.Count - 1;
 
-                Container.IsDirty = true;
+                IsDirty = true;
             }
             if (IsHovering)
             {

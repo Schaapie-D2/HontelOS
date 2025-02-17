@@ -7,7 +7,7 @@
 </p>
 
 # HontelOS
- An Operating System made in C# with Cosmos Developed by Jort van Dalen.
+ An Operating System made in C# based on Cosmos Developed by Jort van Dalen.
 # Features
 - PS/2 Keyboard and Mouse
 - GUI (VBE, SVGAII)
@@ -37,6 +37,9 @@ We currently don't have a guide for VirtualBox, but you can try to follow the VM
 Do not use HontelOS on real hardware; improper usage of the VFS or bugs/unintended behavior can irrevocably corrupt existing files on your hard drive(s). The VFS implementation of Cosmos is still under construction and should be regarded as unstable. For testing, it's recommended to use a virtual machine!
 
 Please see [this page](https://github.com/CosmosOS/Cosmos/wiki/Deploy-%28install%29-Cosmos-on-physical-Hardware) for instructions on how to deploy HontelOS on real hardware.
+
+Use [Rufus](https://rufus.ie) to make a bootable USB and use the [HontelOS-real-hardware.iso image](https://github.com/Schaapie-D2/HontelOS/releases)
+The default resolution is 1920x1080
 
 # Hardware requirements
 - 512 MB Ram

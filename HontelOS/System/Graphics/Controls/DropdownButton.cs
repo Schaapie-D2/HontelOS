@@ -27,6 +27,11 @@ namespace HontelOS.System.Graphics.Controls
             this.items = items;
             actions = onItemSelected;
 
+            OnClick.Add(() => IsDirty = true);
+            OnEndClick.Add(() => IsDirty = true);
+            OnStartHover.Add(() => IsDirty = true);
+            OnEndHover.Add(() => IsDirty = true);
+
             Width = width;
             Height = height;
             X = x;

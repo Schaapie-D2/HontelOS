@@ -59,7 +59,9 @@ namespace HontelOS
         public static List<Process> Processes = new List<Process>();
 
         public static bool appListVisable;
+
         public static bool isDEBUGMode = true;
+        public static bool isRealHardwareTest = false;
 
         static bool mouseClickNotice = false;
         static bool mouseClickNotice1 = false;
@@ -80,11 +82,18 @@ namespace HontelOS
         {
             try
             {
-                fileSystem = new CosmosVFS();
-                VFSManager.RegisterVFS(fileSystem);
+                if (!isRealHardwareTest)
+                {
+                    fileSystem = new CosmosVFS();
+                    VFSManager.RegisterVFS(fileSystem);
 
-                //Settings.Reset();
-                Settings.Load();
+                    //Settings.Reset();
+                    Settings.Load(false);
+                }
+                else
+                {
+                    Settings.Load(true);
+                }
 
                 string resFromSettings = Settings.Get("Resolution");
                 if (resFromSettings != null)
@@ -102,10 +111,10 @@ namespace HontelOS
 
                 // I don't know how to use the Cosmos Audio interface this correctly, i'll look into it later
                 audioMixer = new AudioMixer();
-                audioDriver = AudioDriverExt.GetAudioDriver();
+                //audioDriver = AudioDriverExt.GetAudioDriver(4096);
                 if (audioDriver != null)
                 {
-                    audioDriver.SetSampleFormat(new SampleFormat(AudioBitDepth.Bits16, 2, true));
+                    //audioDriver.SetSampleFormat(new SampleFormat(AudioBitDepth.Bits16, 2, true));
                     audioManager = new AudioManager()
                     {
                         Stream = audioMixer,
@@ -175,13 +184,13 @@ namespace HontelOS
 
                 DrawCursor(Cursors.GetCursorRawData(cursor), MouseManager.X, MouseManager.Y);
 
-                if(isDEBUGMode)
+                if (isDEBUGMode)
                     DrawDebugInfo();
 
                 canvas.Display();
 
                 heapCounter--;
-                if(heapCounter == 0)
+                if (heapCounter == 0)
                 {
                     heapCounter = 4;
                     Heap.Collect();
@@ -253,14 +262,11 @@ namespace HontelOS
             mouseClickSecNotice1 = false;
             KeyboardManagerExt.Update();
 
-            if (!appListVisable)
-            {
-                foreach (SystemControl c in systemControls)
-                    c.Update();
-                WindowManager.Update();
-                foreach (var p in Processes)
-                    p.Update();
-            }
+            foreach (SystemControl c in systemControls)
+                c.Update();
+            WindowManager.Update();
+            foreach (var p in Processes)
+                p.Update();
 
             // Update top GUI
             if (isUnlocked)

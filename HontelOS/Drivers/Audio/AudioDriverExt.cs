@@ -13,16 +13,22 @@
 */
 
 using Cosmos.HAL.Drivers.Audio;
-using System;
 using Cosmos.HAL;
+using Cosmos.System;
 
 namespace HontelOS.Drivers.Audio
 {
     public static class AudioDriverExt
     {
-        public static AudioDriver GetAudioDriver()
+        public static AudioDriver GetAudioDriver(ushort bufferSize)
         {
-            Console.WriteLine("Detecting audio devices...");
+            global::System.Console.WriteLine("Detecting audio devices...");
+
+            if (VMTools.IsVMWare)
+                return ES1371.Initialize(bufferSize);
+            else if (VMTools.IsVirtualBox)
+                return AC97.Initialize(bufferSize); 
+
             foreach (var pci in PCI.Devices)
             {
                 // AC'97 Audio devices
@@ -40,8 +46,8 @@ namespace HontelOS.Drivers.Audio
                     (pci.VendorID == 0x1002 &&      // AMD
                     pci.DeviceID == 0x4353))        // AMD AC'97 Audio Controller
                 {
-                    Console.WriteLine("Found AC'97 Audio device");
-                    return AC97.Initialize(4096);
+                    global::System.Console.WriteLine("Found AC'97 Audio device");
+                    return AC97.Initialize(bufferSize);
                 }
                 else if (pci.VendorID == 0x1274 && // Ensoniq / Creative Labs
                     (pci.DeviceID == 0x1371 ||     // Ensoniq ES1371 AudioPCI
@@ -52,8 +58,8 @@ namespace HontelOS.Drivers.Audio
                     pci.DeviceID == 0x8938 ||      // Creative SB PCI 128 CT4750
                     pci.DeviceID == 0x8939))       // Creative Sound Blaster PCI128 CT4700
                 {
-                    Console.WriteLine("Found ES1371 Audio Device");
-                    //return ES1371.Initialize(4096);
+                    global::System.Console.WriteLine("Found ES1371 Audio Device");
+                    return ES1371.Initialize(bufferSize);
                 }
                 // Intel HD Audio devices
                 else if (pci.VendorID == 0x8086 &&  // Intel
@@ -65,8 +71,8 @@ namespace HontelOS.Drivers.Audio
                     pci.DeviceID == 0xA170 ||  // Intel Skylake U/D/Y Series HD Audio Controller
                     pci.DeviceID == 0xA1C0))   // Intel Kaby Lake HD Audio Controller
                 {
-                    Console.WriteLine("Found Intel HD Audio device");
-                    return IntelHDAudio.Initialize(4096);
+                    global::System.Console.WriteLine("Found Intel HD Audio device");
+                    return IntelHDAudio.Initialize(bufferSize);
                 }
                 // Sound Blaster 16 PCI devices
                 else if (pci.VendorID == 0x1102 && // Creative Labs
@@ -74,11 +80,11 @@ namespace HontelOS.Drivers.Audio
                     pci.DeviceID == 0x0005 ||      // Sound Blaster 16 (OEM Version)
                     pci.DeviceID == 0x0020))       // Sound Blaster 16 with Plug and Play
                 {
-                    Console.WriteLine("Found Sound Blaster 16 PCI device");
-                    return SoundBlaster16.Initialize(4096);
+                    global::System.Console.WriteLine("Found Sound Blaster 16 PCI device");
+                    return SoundBlaster16.Initialize(bufferSize);
                 }
             }
-            Console.WriteLine("No audio devices found");
+            global::System.Console.WriteLine("No audio devices found");
             return null;
         }
     }

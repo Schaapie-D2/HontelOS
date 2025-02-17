@@ -18,7 +18,12 @@ namespace HontelOS.System.Graphics.Controls
 {
     public class TextBox : Control
     {
-        public string Text = "";
+        public string Text
+        {
+            get { return _text; }
+            set { _text = value; IsDirty = true; }
+        }
+        private string _text = "";
         public string Placeholder = "Enter text...";
 
         public Action<string> OnSubmit;
@@ -27,6 +32,11 @@ namespace HontelOS.System.Graphics.Controls
         {
             Placeholder = placeholder;
             OnSubmit = onSubmit;
+
+            OnClick.Add(() => IsDirty = true);
+            OnEndClick.Add(() => IsDirty = true);
+            OnStartHover.Add(() => IsDirty = true);
+            OnEndHover.Add(() => IsDirty = true);
 
             X = x;
             Y = y;
@@ -71,7 +81,7 @@ namespace HontelOS.System.Graphics.Controls
                 else
                     Text += KeyboardManagerExt.ReadKey().KeyChar;
 
-                Container.IsDirty = true;
+                IsDirty = true;
             }
         }
     }

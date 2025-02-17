@@ -24,6 +24,11 @@ namespace HontelOS.System.Graphics.Controls
             Text = text;
             OnClick.Add(onClick);
 
+            OnClick.Add(() => IsDirty = true);
+            OnEndClick.Add(() => IsDirty = true);
+            OnStartHover.Add(() => IsDirty = true);
+            OnEndHover.Add(() => IsDirty = true);
+
             X = x;
             Y = y;
             Width = width;

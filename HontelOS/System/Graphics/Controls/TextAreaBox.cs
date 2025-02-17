@@ -31,6 +31,11 @@ namespace HontelOS.System.Graphics.Controls
         {
             Placeholder = placeholder;
 
+            OnClick.Add(() => IsDirty = true);
+            OnEndClick.Add(() => IsDirty = true);
+            OnStartHover.Add(() => IsDirty = true);
+            OnEndHover.Add(() => IsDirty = true);
+
             X = x;
             Y = y;
             Width = width;
@@ -123,7 +128,7 @@ namespace HontelOS.System.Graphics.Controls
                     currentPosition++;
                 }
 
-                Container.IsDirty = true;
+                IsDirty = true;
             }
         }
     }

@@ -163,6 +163,8 @@ namespace HontelOS.System.Applications.Files
                     itemsList.Items.Add(Path.GetFileName(directory));
                 foreach (string file in Directory.GetFiles(workingDirectory))
                     itemsList.Items.Add(Path.GetFileName(file));
+
+                itemsList.IsDirty = true;
             }
             oldWorkingDirectory = workingDirectory;
 

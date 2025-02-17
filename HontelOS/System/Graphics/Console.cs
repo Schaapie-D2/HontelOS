@@ -1,10 +1,11 @@
 ﻿/*
-* PROJECT:          HontelOS (originally from Aura Operating System Development)
+* PROJECT:          HontelOS
 * CONTENT:          Console class
-* PROGRAMMERS:      Valentin Charbonnier <valentinbreiz@gmail.com>
-* MODIFIED BY:      Jort van Dalen
+* PROGRAMMERS:      Jort van Dalen
 * 
-* Copyright (c) 2021, Aura Team, Aura Operating System
+* USES CODE FROM:
+* https://github.com/aura-systems/Aura-Operating-System
+* 
 * Copyright (c) 2025 Jort van Dalen
 * 
 * This code is licensed under the BSD 3-Clause License.

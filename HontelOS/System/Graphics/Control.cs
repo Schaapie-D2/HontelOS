@@ -34,6 +34,9 @@ namespace HontelOS.System.Graphics
         public bool IsSelected = false;
         public bool IsHovering = false;
 
+        public bool IsDirty = true;
+        public bool UpdateWhileInvisable = false;
+
         public Cursor Cursor = Cursor.Default;
         public ContextMenu ContextMenu;
         public ToolTip ToolTip;
@@ -50,13 +53,7 @@ namespace HontelOS.System.Graphics
             Container = container;
             c = Container.canvas;
 
-            OnClick.Add(() => { Container.IsDirty = true; });
-            OnEndClick.Add(() => { Container.IsDirty = true; });
-            OnClickSec.Add(() => { Container.IsDirty = true; });
-            OnStartHover.Add(() => { Container.IsDirty = true; });
-            OnEndHover.Add(() => { Container.IsDirty = true; });
-
-            SystemEvents.OnStyleChanged.Add(() => { Style = StyleManager.Style; });
+            SystemEvents.OnStyleChanged.Add(() => { Style = StyleManager.Style; IsDirty = true; });
 
             Container.Controls.Add(this);
         }
@@ -70,9 +67,14 @@ namespace HontelOS.System.Graphics
         {
             X -= Container.OffsetX;
             Y -= Container.OffsetY;
+
+            IsDirty = false;
         }
         public virtual void Update()
         {
+            if (!UpdateWhileInvisable && !Container.IsVisible)
+                return;
+
             if (Kernel.MouseClick())
                 IsSelected = false;
 
@@ -110,14 +112,17 @@ namespace HontelOS.System.Graphics
 
             if (IsSelected)
             {
-                if(Kernel.MouseClickSec())
+                if (Kernel.MouseClickSec())
+                {
                     foreach (var a in OnClickSec) a.Invoke();
+
+                    if(ContextMenu != null)
+                        ContextMenu.Show();
+                }
 
                 if(MouseManager.MouseState != MouseState.Left && MouseManager.LastMouseState == MouseState.Left)
                     foreach (var a in OnEndClick) a.Invoke();
             } 
-            if (Kernel.MouseClickSec() && ContextMenu != null && IsSelected)
-                ContextMenu.Show();
         }
     }
 }

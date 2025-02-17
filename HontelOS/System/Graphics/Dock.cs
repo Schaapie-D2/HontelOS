@@ -108,7 +108,7 @@ namespace HontelOS.System.Graphics
                     if (Kernel.MouseClick())
                     {
                         WindowManager.SetFocused(WindowManager.Windows.Values.ToList()[i].WID);
-                        WindowManager.Windows.Values.ToList()[i].IsVisable = !WindowManager.Windows.Values.ToList()[i].IsVisable;
+                        WindowManager.Windows.Values.ToList()[i].IsVisible = !WindowManager.Windows.Values.ToList()[i].IsVisible;
                     }
                 }
             }
