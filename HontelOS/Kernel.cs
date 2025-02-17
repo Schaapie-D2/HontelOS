@@ -61,7 +61,7 @@ namespace HontelOS
         public static bool appListVisable;
 
         public static bool isDEBUGMode = true;
-        public static bool isRealHardwareTest = false;
+        public static bool isRealHardwareTest = true;
 
         static bool mouseClickNotice = false;
         static bool mouseClickNotice1 = false;
