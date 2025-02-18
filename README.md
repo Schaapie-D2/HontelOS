@@ -41,7 +41,7 @@ Please see [this page](https://github.com/CosmosOS/Cosmos/wiki/Deploy-%28install
 Use [Rufus](https://rufus.ie) to make a bootable USB and use the [HontelOS-real-hardware.iso image](https://github.com/Schaapie-D2/HontelOS/releases)
 The default resolution is 1920x1080
 
-![](https://raw.githubusercontent.com/Schaapie-D2/HontelOS/refs/heads/main/Art/HontelOS-v0.2.1-real-hardware.mp4)
+https://github.com/user-attachments/assets/6bbe8919-2bb1-47a4-8d9c-3aaa68f34e7b
 
 # Hardware requirements
 - 512 MB Ram
