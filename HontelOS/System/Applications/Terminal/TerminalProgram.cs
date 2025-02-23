@@ -46,13 +46,16 @@ namespace HontelOS.System.Applications.Terminal
             Commands.Add(new msgbox());
             Commands.Add(new ls());
             Commands.Add(new lspci());
-            Commands.Add(new resetsettings());
-            Commands.Add(new showdir());
-            Commands.Add(new rm());
-            Commands.Add(new rmdir());
-            Commands.Add(new create());
-            Commands.Add(new createdir());
-            Commands.Add(new user());
+            if (Kernel.fileSystem != null)
+            {
+                Commands.Add(new resetsettings());
+                Commands.Add(new showdir());
+                Commands.Add(new rm());
+                Commands.Add(new rmdir());
+                Commands.Add(new create());
+                Commands.Add(new createdir());
+                Commands.Add(new user());
+            }
         }
 
         public void Help(string arg)

@@ -13,6 +13,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Drawing;
 using HontelOS.System.Graphics;
 using HontelOS.System.Graphics.Controls;
 
@@ -23,11 +24,11 @@ namespace HontelOS.System.Applications.TextEditor
         public TextAreaBox textArea;
         public string filePath = "";
 
+        public bool IsReadOnly = false;
+
         public TextEditorProgram(string arg) : base("Text Editor", WindowStyle.Normal, (int)Kernel.screenWidth / 2 - 450, (int)Kernel.screenHeight / 2 - 300, 900, 600)
         {
             Page p = Pages[0];
-
-            new Button("Save", new Action(Save), 5, 5, 100, 25, p);
 
             textArea = new TextAreaBox("", 0, 35, Width, Height - 35, p);
 
@@ -38,6 +39,17 @@ namespace HontelOS.System.Applications.TextEditor
                     lines.Add("");
                 textArea.Text = lines;
                 filePath = arg;
+
+                if(Kernel.fileSystem.GetFileSystemType(arg) == "ISO9660")
+                {
+                    IsReadOnly = true;
+                    textArea.IsDisabled = true;
+                    new Label("File is Read-Only", null, Color.Empty, 5, 35 / 2 - Style.SystemFont.Height / 2, p);
+                }
+                else
+                {
+                    new Button("Save", new Action(Save), 5, 5, 100, 25, p);
+                }
             }
             else
             {

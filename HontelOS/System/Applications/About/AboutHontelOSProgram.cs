@@ -38,7 +38,7 @@ namespace HontelOS.System.Applications.About
             new Label("Copyright (c) 2025 Jort van Dalen", null, Color.Empty, 25, 235 + Style.SystemFont.Height * 6, p);
             new Label("All rights reserved", null, Color.Empty, 25, 235 + Style.SystemFont.Height * 7, p);
 
-            new Label("Made with Cosmos:", null, Color.Empty, 25, 235 + Style.SystemFont.Height * 9, p);
+            new Label("Based on Cosmos:", null, Color.Empty, 25, 235 + Style.SystemFont.Height * 9, p);
             new Label("https://github.com/CosmosOS/Cosmos", null, Color.Empty, 25, 235 + Style.SystemFont.Height * 10, p);
 
             WindowManager.Register(this);

@@ -27,7 +27,7 @@ namespace HontelOS.System.Applications.About
             new Label("HontelOS " + VersionInfo.Version + $" ({VersionInfo.VersionNumber})", null, Color.Empty, 25, 25, p);
 
             new Label("CPU: " + CPU.GetCPUBrandString(), null, Color.Empty, 25, 25 + Style.SystemFont.Height * 2, p);
-            new Label("RAM: " + StorageSizeConverter.AutoConvert(StorageSize.Megabyte, (long)GCImplementation.GetAvailableRAM()).Item3, null, Color.Empty, 25, 25 + Style.SystemFont.Height * 3, p);
+            new Label("RAM: " + StorageSizeConverter.AutoConvert(StorageSize.Megabyte, CPU.GetAmountOfRAM()).Item3, null, Color.Empty, 25, 25 + Style.SystemFont.Height * 3, p);
             new Label("Storage: " + StorageSizeConverter.AutoConvert(StorageSize.Byte, Kernel.fileSystem.GetTotalSize("0:\\")).Item3, null, Color.Empty, 25, 25 + Style.SystemFont.Height * 4, p);
 
             new Button("About HontelOS", () => new AboutHontelOSProgram(), 10, Height - 35, 125, 25, p);

@@ -17,6 +17,8 @@ using HontelOS.System.Graphics.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Cosmos.System.FileSystem.VFS;
+using Cosmos.System.FileSystem;
 
 namespace HontelOS.System.Applications.Files
 {
@@ -30,6 +32,13 @@ namespace HontelOS.System.Applications.Files
 
         public FilesProgram() : base("Files", WindowStyle.Normal, (int)Kernel.screenWidth / 2 - 450, (int)Kernel.screenHeight / 2 - 300, 900, 600)
         {
+            if (Kernel.fileSystem == null)
+            {
+                new MessageBox("Real hardware", "The file system is disabled because it currently doesn't work on real hardware.", null, MessageBoxButtons.Ok);
+                Close();
+                return;
+            }
+
             Page p = Pages[0];
 
             string[] _items = { "File", "Folder" };
@@ -58,6 +67,13 @@ namespace HontelOS.System.Applications.Files
         }
         public FilesProgram(string path) : base("Files", WindowStyle.Normal, (int)Kernel.screenWidth / 2 - 450, (int)Kernel.screenHeight / 2 - 300, 900, 600)
         {
+            if (Kernel.fileSystem == null)
+            {
+                new MessageBox("Real hardware", "The file system is disabled because it currently work on real hardware.", null, MessageBoxButtons.Ok);
+                Close();
+                return;
+            }
+
             Page p = Pages[0];
 
             if (Directory.Exists(path))

@@ -24,12 +24,16 @@ namespace HontelOS.System.Graphics
         public MessageBox(string title, string message, Action<MessageBoxResult> onSubmit, MessageBoxButtons buttons) : base(title, WindowStyle.Dialog, (int)Kernel.screenWidth / 2 - 400, (int)Kernel.screenHeight / 2 - 300, 200, 100 + 45)
         {
             Page p = Pages[0];
+            string[] lines = message.Split('\n');
 
-            Resize(X, Y, Style.SystemFont.Width * message.Length + 50, Height);
+            Resize(X, Y, Style.SystemFont.Width * message.Length + 50, Height + (lines.Length - 1) * Style.SystemFont.Height);
             this.onSubmit = onSubmit;
             OnClose.Add(onClose);
-
-            new Label(message, null, Color.Empty, 25, (Height - 45) / 2 - Style.SystemFont.Height / 2, p);
+            
+            for(int i = 0; i < lines.Length; i++)
+            {
+                new Label(lines[i], null, Color.Empty, 25, ((Height - 45) / 2 - Style.SystemFont.Height / 2) + i * Style.SystemFont.Height, p);
+            }
 
             WindowManager.Register(this);
 

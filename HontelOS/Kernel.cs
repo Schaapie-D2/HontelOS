@@ -313,7 +313,8 @@ namespace HontelOS
             foreach (Process p in Processes)
                 p.Kill();
 
-            Settings.Push();
+            if(fileSystem != null)
+                Settings.Push();
         }
         #endregion
 
