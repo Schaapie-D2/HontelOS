@@ -15,6 +15,7 @@
 using Cosmos.HAL.Drivers.Audio;
 using Cosmos.HAL;
 using Cosmos.System;
+using HontelOS.System;
 
 namespace HontelOS.Drivers.Audio
 {
@@ -25,9 +26,15 @@ namespace HontelOS.Drivers.Audio
             global::System.Console.WriteLine("Detecting audio devices...");
 
             if (VMTools.IsVMWare)
-                return ES1371.Initialize(bufferSize);
+            {
+                var Dev = PCIExt.GetDevice(0x1274, 0x1371);
+                if (Dev != null && Dev.DeviceExists)
+                    return ES1371.Initialize(bufferSize, Dev);
+                else
+                    return null;
+            }
             else if (VMTools.IsVirtualBox)
-                return AC97.Initialize(bufferSize); 
+                return AC97.Initialize(bufferSize);
 
             foreach (var pci in PCI.Devices)
             {
@@ -59,7 +66,7 @@ namespace HontelOS.Drivers.Audio
                     pci.DeviceID == 0x8939))       // Creative Sound Blaster PCI128 CT4700
                 {
                     global::System.Console.WriteLine("Found ES1371 Audio Device");
-                    return ES1371.Initialize(bufferSize);
+                    return ES1371.Initialize(bufferSize, pci);
                 }
                 // Intel HD Audio devices
                 else if (pci.VendorID == 0x8086 &&  // Intel

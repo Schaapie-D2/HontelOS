@@ -25,6 +25,7 @@ namespace HontelOS.System.Graphics
         public int OffsetY { get; set; }
         public bool IsDirty { get; set; } = true;
         public bool IsVisible { get; set; }
+        public bool HandleInput { get; set; }
 
         public bool FullRedrawNeeded = true;
 
@@ -51,6 +52,9 @@ namespace HontelOS.System.Graphics
 
         public void Update()
         {
+            if (IControlContainer.ForceHandleInput)
+                HandleInput = true;
+
             ContainerX = Window.ContainerX;
             ContainerY = Window.ContainerY;
             IsVisible = Window.IsVisible;

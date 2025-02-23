@@ -77,7 +77,7 @@ namespace HontelOS.System.Graphics.Controls
         {
             base.Update();
 
-            if (IsSelected && KeyboardManagerExt.KeyAvailable)
+            if (IsSelected && KeyboardManagerExt.KeyAvailable && !IsDisabled)
             {
                 var key = KeyboardManagerExt.ReadKey();
 

@@ -154,17 +154,14 @@ namespace HontelOS.Drivers.Audio
         WAV.Header _header;
         public string _song_name;
 
-        private ES1371(ushort bufferSize)
+        private ES1371(ushort bufferSize, PCIDevice device)
         {
             if (bufferSize % 2 != 0)
                 // As per the ES1371 specification, the buffer size cannot be odd.
                 // (1.2.4.2 PCM Buffer Restrictions, Intel document 302349-003)
                 throw new ArgumentException("The buffer size must be an even number.", nameof(bufferSize));
 
-            PCIDevice pci = Cosmos.HAL.PCI.GetDevice(
-                VendorID.VMWare, // 0x04
-                DeviceID.VBVGA         // 0x01
-            );
+            PCIDevice pci = device;
 
             if (pci == null || !pci.DeviceExists || pci.InterruptLine > 0xF)
                 throw new InvalidOperationException("No ES1371-compatible device could be found. " + pci.InterruptLine);
@@ -236,7 +233,7 @@ namespace HontelOS.Drivers.Audio
         /// <param name="bufferSize">The buffer size in samples to use. This value cannot be an odd number, as per the ES1371 specification.</param>
         /// <exception cref="ArgumentException">Thrown when the given buffer size is invalid.</exception>
         /// <exception cref="InvalidOperationException">Thrown when no ES1371-compatible sound card is present.</exception>
-        public static ES1371 Initialize(ushort bufferSize)
+        public static ES1371 Initialize(ushort bufferSize, PCIDevice device)
         {
             if (Instance != null)
             {
@@ -246,7 +243,7 @@ namespace HontelOS.Drivers.Audio
                 return Instance;
             }
 
-            Instance = new ES1371(bufferSize);
+            Instance = new ES1371(bufferSize, device);
             return Instance;
         }
 
@@ -385,15 +382,15 @@ namespace HontelOS.Drivers.Audio
             IOPort.Write32(BAR0 + 0x20, 0x0020020C);
             IOPort.Write32(BAR0 + 0x00, 0x00000020);
             var context = new INTs.IRQContext();
-            INTs.SetIntHandler(0x20, HandleInterrupt);
+            INTs.SetIntHandler(0x20, HandleInterrupt); // The issue starts here somewhere
             INTs.HandleInterrupt_20(ref context);
             INTs.SetIntHandler(0x20, DoPlay);
             while (true)
             {
                 INTs.HandleInterrupt_20(ref context);
             }
-
         }
+
         void SetPlayback2SampleRate(int rate)
         {
             long frequency = (rate << 16) / 3000;

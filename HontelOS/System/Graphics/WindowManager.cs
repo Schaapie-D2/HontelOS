@@ -25,6 +25,8 @@ namespace HontelOS.System.Graphics
 
         static int WIDcounter = -1;
 
+        static bool WinDubFocusPrevention = false;
+
         public static int Register(IWindow window)
         {
             WIDcounter++;
@@ -47,8 +49,15 @@ namespace HontelOS.System.Graphics
 
         public static void Update()
         {
-            foreach (IWindow w in Windows.Values)
-                w.UpdateWindow();
+            WinDubFocusPrevention = false;
+            var reverseWindows = Windows.Values.Reverse();
+
+            if(FocusedWindow.HasValue && Windows.ContainsKey(FocusedWindow.Value))
+                Windows[FocusedWindow.Value].UpdateWindow();
+
+            foreach (IWindow w in reverseWindows)
+                if(FocusedWindow != w.WID)
+                    w.UpdateWindow();
         }
 
         public static void Draw()
@@ -63,8 +72,9 @@ namespace HontelOS.System.Graphics
 
         public static void SetFocused(int WID)
         {
-            if (Windows.ContainsKey(WID))
+            if (!WinDubFocusPrevention && Windows.ContainsKey(WID))
                 FocusedWindow = WID;
+            WinDubFocusPrevention = true;
         }
 
         public static bool IsAlive(int WID) { return Windows.ContainsKey(WID); }

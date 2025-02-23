@@ -49,5 +49,3 @@ https://github.com/user-attachments/assets/6bbe8919-2bb1-47a4-8d9c-3aaa68f34e7b
 # Known issues
 - The OS might crash under heavy load or when running for a long time.
 - The OS might freeze when opening a large file.
-- When clicking on a window that is infront of another window, the controls in the window behind will be triggerd.
-- When starting to drag a window that is infront of another windows handle, both windows will be moved.

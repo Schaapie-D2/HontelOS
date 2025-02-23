@@ -264,7 +264,7 @@ namespace HontelOS.System.Graphics
             Y = y;
             Width = width;
             Height = height;
-            canvas = new DirectBitmap(width, height);
+            canvas.SetSize(width, height);
             IsDirty = true;
         }
     }

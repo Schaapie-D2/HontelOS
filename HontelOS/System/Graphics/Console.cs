@@ -102,7 +102,7 @@ namespace HontelOS.System.Graphics
             mRows = newRows;
             _text = newText;
 
-            canvas = new DirectBitmap(width, height);
+            canvas.SetSize(width, height);
 
             if (mX >= mCols) mX = mCols - 1;
             if (mY >= mRows) mY = mRows - 1;

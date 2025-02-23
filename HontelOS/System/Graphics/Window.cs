@@ -269,6 +269,27 @@ namespace HontelOS.System.Graphics
 
             NavBar.UpdateWindow();
 
+            if(WindowManager.FocusedWindow == WID)
+            {
+                int addY = 32;
+                if (WindowStyle == WindowStyle.Borderless)
+                    addY = 0;
+
+                if(Kernel.MouseInArea(X, Y, X + Width, Y + addY + Height))
+                {
+                    Pages[CurrentPage].HandleInput = WindowManager.FocusedWindow == WID;
+                    IControlContainer.ForceHandleInput = false;
+                }
+                else
+                {
+                    IControlContainer.ForceHandleInput = true;
+                }
+            }
+            else
+            {
+                Pages[CurrentPage].HandleInput = false;
+            }
+
             Pages[CurrentPage].Update();
 
             NavBar.Update();
@@ -312,11 +333,12 @@ namespace HontelOS.System.Graphics
             Y = y;
             Width = width;
             Height = height;
-            canvas = new DirectBitmap(width, height);
+            canvas.SetSize(width, height);
             NavBar.c = canvas;
             foreach (Page p in Pages)
                 p.canvas = canvas;
             IsDirty = true;
+            Pages[CurrentPage].FullRedrawNeeded = true;
         }
     }
 

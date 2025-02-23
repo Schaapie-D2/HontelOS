@@ -23,6 +23,8 @@ namespace HontelOS.System.Graphics
         public int OffsetY { get; set; }
         public bool IsDirty { get; set; }
         public bool IsVisible { get; set; }
+        public bool HandleInput { get; set; }
+        public static bool ForceHandleInput;
         public DirectBitmap canvas { get; set; }
     }
 }

@@ -34,6 +34,7 @@ using HontelOS.Drivers.Audio;
 using Cosmos.HAL.Audio;
 using Cosmos.HAL;
 using HontelOS.System.Conversion;
+using HontelOS.System.Multithreading;
 
 namespace HontelOS
 {
@@ -61,7 +62,7 @@ namespace HontelOS
         public static bool appListVisable;
 
         public static bool isDEBUGMode = true;
-        public static bool isRealHardwareTest = true;
+        public static bool isRealHardwareTest = false;
 
         static bool mouseClickNotice = false;
         static bool mouseClickNotice1 = false;
@@ -109,7 +110,7 @@ namespace HontelOS
                 canvas.DrawImage(logo, (int)screenWidth / 2 - (int)screenHeight / 8, (int)screenHeight / 2 - (int)screenHeight / 8, (int)screenHeight / 4, (int)screenHeight / 4);
                 canvas.Display();
 
-                // I don't know how to use the Cosmos Audio interface this correctly, i'll look into it later
+                // I don't know how to use the Cosmos Audio interface correctly, i'll look into it later
                 audioMixer = new AudioMixer();
                 //audioDriver = AudioDriverExt.GetAudioDriver(4096);
                 if (audioDriver != null)
@@ -122,9 +123,9 @@ namespace HontelOS
                     };
                     audioManager.Enable();
                 }
-
+                
                 audioMixer.Streams.Add(ResourceManager.BootSound);
-
+                
                 StyleManager.Init();
 
                 MouseManager.ScreenWidth = screenWidth;
@@ -260,6 +261,7 @@ namespace HontelOS
 
             mouseClickNotice1 = false;
             mouseClickSecNotice1 = false;
+
             KeyboardManagerExt.Update();
 
             foreach (SystemControl c in systemControls)
@@ -305,6 +307,7 @@ namespace HontelOS
             canvas.DrawImage(logo, (int)screenWidth / 2 - (int)screenHeight / 8, (int)screenHeight / 2 - (int)screenHeight / 8, (int)screenHeight / 4, (int)screenHeight / 4);
             canvas.Display();
 
+            InterruptManager.EndAll();
             foreach (IWindow w in WindowManager.Windows.Values)
                 w.ForceClose();
             foreach (Process p in Processes)

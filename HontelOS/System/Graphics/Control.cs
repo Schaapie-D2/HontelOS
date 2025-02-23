@@ -72,13 +72,13 @@ namespace HontelOS.System.Graphics
         }
         public virtual void Update()
         {
-            if (!UpdateWhileInvisable && !Container.IsVisible)
+            if ((!UpdateWhileInvisable && !Container.IsVisible) || IsDisabled)
                 return;
 
-            if (Kernel.MouseClick())
+            if (Kernel.MouseClick() && Container.HandleInput)
                 IsSelected = false;
 
-            if (Kernel.MouseInArea(Container.ContainerX + X, Container.ContainerY + Y, Container.ContainerX + X + Width, Container.ContainerY + Y + Height))
+            if (Kernel.MouseInArea(Container.ContainerX + X, Container.ContainerY + Y, Container.ContainerX + X + Width, Container.ContainerY + Y + Height) && Container.HandleInput)
             {
                 Kernel.cursor = Cursor;
 

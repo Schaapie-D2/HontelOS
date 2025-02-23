@@ -73,15 +73,34 @@ namespace HontelOS.System.Applications.Terminal
         public void Execute(string[] args, TerminalProgram terminal)
         {
             var c = terminal.console;
-            c.WriteLine("PCI devices:");
-            foreach (var device in Cosmos.HAL.PCI.Devices)
+            string action = args[0];
+            if(action == "-exists")
             {
-                c.WriteLine($"Vendor: {device.VendorID:X4} Device: {device.DeviceID:X4} Class: {device.ClassCode:X2} Subclass: {device.Subclass:X2} ProgIF: {device.ProgIF:X2}");
+                string devID = args[1];
+                string venID = args[2];
+
+                if (PCIExt.GetDevice(ushort.Parse(devID), ushort.Parse(venID)) != null)
+                    c.WriteLine("PCI device exists!");
+                else
+                    c.WriteLine("PCI device does not exist!");
+
+            }
+            else if (action == "-search")
+            {
+                c.WriteLine("PCI devices:");
+                foreach (var device in Cosmos.HAL.PCI.Devices)
+                {
+                    c.WriteLine($"Vendor: {device.VendorID:X4} Device: {device.DeviceID:X4} Class: {device.ClassCode:X2} Subclass: {device.Subclass:X2} ProgIF: {device.ProgIF:X2}");
+                }
+            }
+            else
+            {
+                c.WriteLine("Usage: lspci <-exists or -search> <vendorID (only when using -exists)> <deviceID (only when using -exists)>");
             }
         }
 
         public string GetCMDName() => "lspci";
-        public string GetHelpText() => "lists all PCI devices on the device";
+        public string GetHelpText() => "search all PCI devices on the device";
     }
     public class resetsettings : ICommand
     {
