@@ -1,16 +1,4 @@
-﻿/*
-* PROJECT:          HontelOS
-* CONTENT:          Keyboard manager extension
-* PROGRAMMERS:      Jort van Dalen
-* 
-* Copyright (c) 2025 Jort van Dalen
-* 
-* This code is licensed under the BSD 3-Clause License.
-* You may obtain a copy of the License at:
-* https://opensource.org/licenses/BSD-3-Clause
-*/
-
-using Cosmos.System;
+﻿using Cosmos.System;
 
 namespace HontelOS.System.Input
 {
@@ -41,6 +29,12 @@ namespace HontelOS.System.Input
                 return KeyEvent;
             else
                 return null;
+        }
+
+        public static void AppendKey(byte scanKey, bool shift, bool alt, bool control)
+        {
+            KeyEvent = KeyboardManager.GetKeyLayout().ConvertScanCode(scanKey, control, shift, alt, false, false, false);
+            KeyAvailable = true;
         }
     }
 }

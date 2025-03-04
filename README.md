@@ -8,6 +8,7 @@
 
 # HontelOS
  An Operating System made in C# based on Cosmos Developed by Jort van Dalen.
+
 # Features
 - PS/2 Keyboard and Mouse
 - GUI (VBE, SVGAII)
@@ -17,6 +18,21 @@
 
 # Screenshots
 <p align="center"><img src="https://raw.githubusercontent.com/Schaapie-D2/HontelOS/refs/heads/main/Art/Archive/0.2.0/Screenshot-1.png"></p>
+
+# License
+
+## Code
+HontelOS is licensed under the **BSD 3-Clause License**.  
+You can find the full license text in the [`LICENSE`](https://github.com/Schaapie-D2/HontelOS/blob/main/LICENSE) file.
+
+## Resources (Images, Audio, and Other Assets)
+HontelOS Resources by Jort van Dalen are licensed under the  
+[Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
+
+This means you are free to:
+- Share — Copy and redistribute the material in any medium or format.
+- Adapt — Remix, transform, and build upon the material.  
+**However,** commercial use is not allowed, and you must provide credit to the author (Jort van Dalen)
 
 # How to run
 

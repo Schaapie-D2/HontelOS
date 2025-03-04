@@ -1,16 +1,4 @@
-﻿/*
-* PROJECT:          HontelOS
-* CONTENT:          HontelOS text editor program
-* PROGRAMMERS:      Jort van Dalen
-* 
-* Copyright (c) 2025 Jort van Dalen
-* 
-* This code is licensed under the BSD 3-Clause License.
-* You may obtain a copy of the License at:
-* https://opensource.org/licenses/BSD-3-Clause
-*/
-
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Drawing;

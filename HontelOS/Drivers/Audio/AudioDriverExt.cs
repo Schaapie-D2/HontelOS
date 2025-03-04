@@ -1,16 +1,4 @@
-﻿/*
-* PROJECT:          HontelOS
-* CONTENT:          Audio driver extension
-* PROGRAMMERS:      Jort van Dalen
-* 
-* MIGHT BE INCOMPLETE
-* 
-* Copyright (c) 2025 Jort van Dalen
-* 
-* This code is licensed under the BSD 3-Clause License.
-* You may obtain a copy of the License at:
-* https://opensource.org/licenses/BSD-3-Clause
-*/
+﻿// MIGHT BE INCOMPLETE
 
 using Cosmos.HAL.Drivers.Audio;
 using Cosmos.HAL;

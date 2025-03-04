@@ -1,16 +1,4 @@
-﻿/*
-* PROJECT:          HontelOS
-* CONTENT:          Intel HD Audio driver
-* PROGRAMMERS:      Jort van Dalen
-* 
-* DOES NOT WORK YET
-* 
-* Copyright (c) 2025 Jort van Dalen
-* 
-* This code is licensed under the BSD 3-Clause License.
-* You may obtain a copy of the License at:
-* https://opensource.org/licenses/BSD-3-Clause
-*/
+﻿// DOES NOT WORK YET
 
 using System;
 using Cosmos.Core;

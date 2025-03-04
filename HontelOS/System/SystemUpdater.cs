@@ -1,16 +1,4 @@
-﻿/*
-* PROJECT:          HontelOS
-* CONTENT:          HontelOS system updater
-* PROGRAMMERS:      Jort van Dalen
-* 
-* Copyright (c) 2025 Jort van Dalen
-* 
-* This code is licensed under the BSD 3-Clause License.
-* You may obtain a copy of the License at:
-* https://opensource.org/licenses/BSD-3-Clause
-*/
-
-using HontelOS.System.Network;
+﻿using HontelOS.System.Network;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;

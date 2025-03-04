@@ -1,16 +1,4 @@
-﻿/*
-* PROJECT:          HontelOS
-* CONTENT:          About this PC program for HontelOS
-* PROGRAMMERS:      Jort van Dalen
-* 
-* Copyright (c) 2025 Jort van Dalen
-* 
-* This code is licensed under the BSD 3-Clause License.
-* You may obtain a copy of the License at:
-* https://opensource.org/licenses/BSD-3-Clause
-*/
-
-using System.Drawing;
+﻿using System.Drawing;
 using HontelOS.System.Graphics.Controls;
 using Cosmos.Core;
 using HontelOS.System.Graphics;

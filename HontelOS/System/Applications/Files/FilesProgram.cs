@@ -1,16 +1,4 @@
-﻿/*
-* PROJECT:          HontelOS
-* CONTENT:          HontelOS file explorer program
-* PROGRAMMERS:      Jort van Dalen
-* 
-* Copyright (c) 2025 Jort van Dalen
-* 
-* This code is licensed under the BSD 3-Clause License.
-* You may obtain a copy of the License at:
-* https://opensource.org/licenses/BSD-3-Clause
-*/
-
-using Cosmos.System;
+﻿using Cosmos.System;
 using HontelOS.System.Input;
 using HontelOS.System.Graphics;
 using HontelOS.System.Graphics.Controls;

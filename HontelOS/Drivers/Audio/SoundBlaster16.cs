@@ -1,18 +1,8 @@
 ﻿/*
-* PROJECT:          HontelOS
-* CONTENT:          Sound Blaster 16 Audio driver
-* PROGRAMMERS:      Jort van Dalen
-* 
 * https://gist.github.com/ascpixi/af4f138bf61a2a3f62c670a34ee1f7ce
 * gist by ascpixi and modified to work with the new Cosmos Audio Infrastructure
 * 
 * DOES NOT WORK YET
-* 
-* Copyright (c) 2025 Jort van Dalen
-* 
-* This code is licensed under the BSD 3-Clause License.
-* You may obtain a copy of the License at:
-* https://opensource.org/licenses/BSD-3-Clause
 */
 
 using System;
