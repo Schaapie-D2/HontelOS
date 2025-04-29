@@ -154,14 +154,17 @@ namespace HontelOS.Drivers.Audio
         WAV.Header _header;
         public string _song_name;
 
-        private ES1371(ushort bufferSize, PCIDevice device)
+        private ES1371(ushort bufferSize)
         {
             if (bufferSize % 2 != 0)
                 // As per the ES1371 specification, the buffer size cannot be odd.
                 // (1.2.4.2 PCM Buffer Restrictions, Intel document 302349-003)
                 throw new ArgumentException("The buffer size must be an even number.", nameof(bufferSize));
 
-            PCIDevice pci = device;
+            PCIDevice pci = Cosmos.HAL.PCI.GetDevice(
+                VendorID.VMWare, // 0x04
+                DeviceID.VBVGA         // 0x01
+            ); ;
 
             if (pci == null || !pci.DeviceExists || pci.InterruptLine > 0xF)
                 throw new InvalidOperationException("No ES1371-compatible device could be found. " + pci.InterruptLine);
@@ -233,7 +236,7 @@ namespace HontelOS.Drivers.Audio
         /// <param name="bufferSize">The buffer size in samples to use. This value cannot be an odd number, as per the ES1371 specification.</param>
         /// <exception cref="ArgumentException">Thrown when the given buffer size is invalid.</exception>
         /// <exception cref="InvalidOperationException">Thrown when no ES1371-compatible sound card is present.</exception>
-        public static ES1371 Initialize(ushort bufferSize, PCIDevice device)
+        public static ES1371 Initialize(ushort bufferSize)
         {
             if (Instance != null)
             {
@@ -243,7 +246,7 @@ namespace HontelOS.Drivers.Audio
                 return Instance;
             }
 
-            Instance = new ES1371(bufferSize, device);
+            Instance = new ES1371(bufferSize);
             return Instance;
         }
 

@@ -1,4 +1,5 @@
-﻿using HontelOS.System.Applications.Files;
+﻿using HontelOS.System.Applications.Debugging;
+using HontelOS.System.Applications.Files;
 using HontelOS.System.Graphics;
 using HontelOS.System.User;
 using System.IO;
@@ -62,7 +63,7 @@ namespace HontelOS.System.Applications.Terminal
         {
             var c = terminal.console;
             string action = args[0];
-            if(action == "-exists")
+            if (action == "-exists")
             {
                 string devID = args[1];
                 string venID = args[2];
@@ -221,7 +222,7 @@ namespace HontelOS.System.Applications.Terminal
             }
             else if (action == "-list")
             {
-                foreach(string user in User.User.GetUsers())
+                foreach (string user in User.User.GetUsers())
                     c.WriteLine(user);
             }
             else
@@ -232,5 +233,14 @@ namespace HontelOS.System.Applications.Terminal
 
         public string GetCMDName() => "user";
         public string GetHelpText() => "create and delete a user";
+    }
+    public class logs : ICommand
+    {
+        public void Execute(string[] args, TerminalProgram terminal)
+        {
+            new LogsProgram();
+        }
+        public string GetCMDName() => "logs";
+        public string GetHelpText() => "open logs";
     }
 }

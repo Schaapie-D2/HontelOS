@@ -1,4 +1,5 @@
-﻿using Cosmos.System;
+﻿using Cosmos.Core;
+using Cosmos.System;
 using Cosmos.System.Graphics;
 using Cosmos.System.Graphics.Fonts;
 using System;

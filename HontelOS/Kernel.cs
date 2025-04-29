@@ -12,6 +12,7 @@ using Cosmos.Core.Memory;
 using HontelOS.Resources;
 using System;
 using HontelOS.System.Applications.PasswordWindow;
+using HontelOS.System.Applications.Debugging;
 using HontelOS.System.Graphics;
 using HontelOS.System.User;
 using HontelOS.System.Processing;
@@ -113,7 +114,7 @@ namespace HontelOS
                 }
                 
                 audioMixer.Streams.Add(ResourceManager.BootSound);
-                
+
                 StyleManager.Init();
 
                 MouseManager.ScreenWidth = screenWidth;
@@ -137,7 +138,7 @@ namespace HontelOS
                 if (ex.InnerException != null)
                     Crash.StopKernel(ex.Message, ex.InnerException.Message, "0x00000000", "0");
                 else
-                    Crash.StopKernel("Fatal dotnet exception occured.", ex.Message, "0x00000000", "0");
+                    Crash.StopKernel("Fatal dotnet exception occured durring boot.", ex.Message, "0x00000000", "0");
             }
         }
 
@@ -176,6 +177,7 @@ namespace HontelOS
                 if (isDEBUGMode)
                     DrawDebugInfo();
 
+
                 canvas.Display();
 
                 heapCounter--;
@@ -190,7 +192,7 @@ namespace HontelOS
                 if (ex.InnerException != null)
                     Crash.StopKernel(ex.Message, ex.InnerException.Message, "0x00000000", "0");
                 else
-                    Crash.StopKernel("Fatal dotnet exception occured.", ex.Message, "0x00000000", "0");
+                    Crash.StopKernel("Fatal dotnet exception occured durring run.", ex.Message, "0x00000000", "0");
             }
         }
 
@@ -337,7 +339,7 @@ namespace HontelOS
             return false;
         }
         #endregion
-
+ 
         #region DEBUG
         void DrawDebugInfo()
         {

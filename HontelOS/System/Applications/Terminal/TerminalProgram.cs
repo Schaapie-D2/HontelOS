@@ -34,6 +34,7 @@ namespace HontelOS.System.Applications.Terminal
             Commands.Add(new msgbox());
             Commands.Add(new ls());
             Commands.Add(new lspci());
+            Commands.Add(new logs());
             if (Kernel.fileSystem != null)
             {
                 Commands.Add(new resetsettings());
@@ -53,6 +54,11 @@ namespace HontelOS.System.Applications.Terminal
             {
                 foreach (var com in Commands)
                     c.WriteLine($"{com.GetCMDName()} = {com.GetHelpText()}");
+
+                c.WriteLine("help = show this list");
+                c.WriteLine("cd = change directory");
+                c.WriteLine("clear = clear the screen");
+                c.WriteLine("exit = close the terminal");
             }
             else
             {
@@ -82,6 +88,9 @@ namespace HontelOS.System.Applications.Terminal
                     return;
                 case "cd":
                     CD(args[0]);
+                    return;
+                case "clear":
+                    console.Clear();
                     return;
                 case "exit":
                     Close();

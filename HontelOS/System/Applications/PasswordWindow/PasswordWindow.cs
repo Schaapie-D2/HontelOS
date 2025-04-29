@@ -19,8 +19,10 @@ namespace HontelOS.System.Applications.PasswordWindow
             new Button("Reboot", new Action(Kernel.Reboot), Width / 2 + 10, Height - 40, Width / 2 - 20, 30, p);
 
             TextBox username = new TextBox("Enter username...", null, Width / 2 - 200, 10, 400, 40, p);
+            username.IsSelected = true;
             TextBox password = new TextBox("Enter password...", null, Width / 2 - 200, 60, 400, 40, p);
             new Button("Login", new Action(CheckPasword), Width / 2 - 200, 110, 400, 40, p);
+            
 
             void CheckPasword()
             {
@@ -37,6 +39,7 @@ namespace HontelOS.System.Applications.PasswordWindow
             }
 
             WindowManager.Register(this);
+            WindowManager.SetFocused(WID);
         }
     }
 }

@@ -36,5 +36,11 @@ namespace HontelOS.System.Input
             KeyEvent = KeyboardManager.GetKeyLayout().ConvertScanCode(scanKey, control, shift, alt, false, false, false);
             KeyAvailable = true;
         }
+
+        public static void AppendKey(KeyEvent keyEvent)
+        {
+            KeyEvent = keyEvent;
+            KeyAvailable = true;
+        }
     }
 }

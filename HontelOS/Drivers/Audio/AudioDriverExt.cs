@@ -17,7 +17,7 @@ namespace HontelOS.Drivers.Audio
             {
                 var Dev = PCIExt.GetDevice(0x1274, 0x1371);
                 if (Dev != null && Dev.DeviceExists)
-                    return ES1371.Initialize(bufferSize, Dev);
+                    return ES1371.Initialize(bufferSize);
                 else
                     return null;
             }
@@ -54,7 +54,7 @@ namespace HontelOS.Drivers.Audio
                     pci.DeviceID == 0x8939))       // Creative Sound Blaster PCI128 CT4700
                 {
                     global::System.Console.WriteLine("Found ES1371 Audio Device");
-                    return ES1371.Initialize(bufferSize, pci);
+                    return ES1371.Initialize(bufferSize);
                 }
                 // Intel HD Audio devices
                 else if (pci.VendorID == 0x8086 &&  // Intel
