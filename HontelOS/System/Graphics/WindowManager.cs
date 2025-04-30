@@ -7,6 +7,8 @@ namespace HontelOS.System.Graphics
     public class WindowManager
     {
         public static Dictionary<int, IWindow> Windows = new Dictionary<int, IWindow>();
+        public static List<int> ZOrder = new();
+
         public static int? FocusedWindow { get; private set; }
 
         public static List<Action> OnWindowsListUpdate = new();
@@ -20,6 +22,7 @@ namespace HontelOS.System.Graphics
             WIDcounter++;
             window.WID = WIDcounter;
             Windows.Add(WIDcounter, window);
+            ZOrder.Add(WIDcounter);
             SetFocused(WIDcounter);
             foreach (var a in OnWindowsListUpdate) a.Invoke();
             return WIDcounter;
@@ -30,7 +33,8 @@ namespace HontelOS.System.Graphics
             if (Windows.ContainsKey(WID))
             {
                 Windows.Remove(WID);
-                FocusedWindow = Windows.Keys.LastOrDefault();
+                ZOrder.Remove(WID);
+                FocusedWindow = ZOrder.LastOrDefault();
                 foreach (var a in OnWindowsListUpdate) a.Invoke();
             }
         }
@@ -38,30 +42,25 @@ namespace HontelOS.System.Graphics
         public static void Update()
         {
             WinDubFocusPrevention = false;
-            var reverseWindows = Windows.Values.Reverse();
 
-            if(FocusedWindow.HasValue && Windows.ContainsKey(FocusedWindow.Value))
-                Windows[FocusedWindow.Value].UpdateWindow();
-
-            foreach (IWindow w in reverseWindows)
-                if(FocusedWindow != w.WID)
-                    w.UpdateWindow();
+            foreach (var wid in ZOrder.Reverse<int>())
+                Windows[wid].UpdateWindow();
         }
 
         public static void Draw()
         {
-            foreach (var window in Windows)
-                if (FocusedWindow != window.Key)
-                    window.Value.DrawWindow();
-
-            if (FocusedWindow.HasValue && Windows.ContainsKey(FocusedWindow.Value))
-                Windows[FocusedWindow.Value].DrawWindow();
+            foreach (var wid in ZOrder)
+                Windows[wid].DrawWindow();
         }
 
         public static void SetFocused(int WID)
         {
             if (!WinDubFocusPrevention && Windows.ContainsKey(WID))
+            {
                 FocusedWindow = WID;
+                ZOrder.Remove(WID);
+                ZOrder.Add(WID);
+            }
             WinDubFocusPrevention = true;
         }
 
