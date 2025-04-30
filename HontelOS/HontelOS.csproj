@@ -56,12 +56,12 @@ namespace HontelOS.System
 
     <ItemGroup>
       <EmbeddedResource Include="Resources\Audio\boot.wav" />
-      <EmbeddedResource Include="Resources\Images\Backgrounds\BG1.bmp" />
-      <EmbeddedResource Include="Resources\Images\Backgrounds\BG2.bmp" />
-      <EmbeddedResource Include="Resources\Images\Backgrounds\BG3.bmp" />
-      <EmbeddedResource Include="Resources\Images\Branding\HontelOS_Logo_Black.bmp" />
-      <EmbeddedResource Include="Resources\Images\Branding\HontelOS_Logo_White.bmp" />
-      <EmbeddedResource Include="Resources\Images\Branding\Hontel_Logo.bmp" />
+      <EmbeddedResource Include="Resources\Images\Backgrounds\BG1.png" />
+      <EmbeddedResource Include="Resources\Images\Backgrounds\BG2.png" />
+      <EmbeddedResource Include="Resources\Images\Backgrounds\BG3.png" />
+      <EmbeddedResource Include="Resources\Images\Branding\HontelOS_Logo_Black.png" />
+      <EmbeddedResource Include="Resources\Images\Branding\HontelOS_Logo_White.png" />
+      <EmbeddedResource Include="Resources\Images\Branding\Hontel_Logo.png" />
       <EmbeddedResource Include="Resources\Images\System_App_List.bmp" />
       <EmbeddedResource Include="Resources\Images\System_Application.bmp" />
     </ItemGroup>
@@ -72,6 +72,7 @@ namespace HontelOS.System
 		<PackageReference Include="Cosmos.Plugs" Version="0.1.0-localbuild*" NoWarn="NU1604" />
         <PackageReference Include="Cosmos.System2" Version="0.1.0-localbuild*" NoWarn="NU1604" />
         <PackageReference Include="CosmosHttp" Version="1.0.4" />
+        <PackageReference Include="CosmosPNGLibrary" Version="1.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="System.Console" Version="4.3.1" />
 		

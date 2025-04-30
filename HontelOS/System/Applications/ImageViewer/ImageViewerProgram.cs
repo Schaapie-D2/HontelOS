@@ -1,4 +1,5 @@
 ﻿using Cosmos.System.Graphics;
+using CosmosPNG.PNGLib.Decoders.PNG;
 using HontelOS.System.Graphics;
 using HontelOS.System.Graphics.Controls;
 using System.IO;
@@ -13,13 +14,19 @@ namespace HontelOS.System.Applications.ImageViewer
         {
             Page p = Pages[0];
 
-            if (!path.EndsWith(".bmp"))
+            switch(Path.GetExtension(path))
             {
-                new MessageBox("Unsupported image format", $"The file format {Path.GetExtension(path)} is not supported!", null, MessageBoxButtons.Ok);
-                Close();
+                case ".bmp":
+                    image = new Bitmap(path, ColorOrder.RGB);
+                    break;
+                case ".png":
+                    image = new PNGDecoder().GetBitmap(path);
+                    break;
+                default:
+                    new MessageBox("Unsupported image format", $"The file format {Path.GetExtension(path)} is not supported!", null, MessageBoxButtons.Ok);
+                    Close();
+                    break;
             }
-
-            image = new Bitmap(path, ColorOrder.RGB);
 
             new PictureBox(image, (int)(Width / 2 - image.Width / 2), (int)(Height / 2 - image.Height / 2), (int)image.Width, (int)image.Height, p);
 

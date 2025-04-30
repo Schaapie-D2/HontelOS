@@ -136,9 +136,9 @@ namespace HontelOS
             catch (Exception ex)
             {
                 if (ex.InnerException != null)
-                    Crash.StopKernel(ex.Message, ex.InnerException.Message, "0x00000000", "0");
+                    Crash.StopKernel(ex.Message, ex.InnerException.Message, "Boot", "Boot");
                 else
-                    Crash.StopKernel("Fatal dotnet exception occured durring boot.", ex.Message, "0x00000000", "0");
+                    Crash.StopKernel("Fatal dotnet exception occured durring boot.", ex.Message, "Boot", "Boot");
             }
         }
 

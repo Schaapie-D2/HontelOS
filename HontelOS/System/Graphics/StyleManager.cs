@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using Cosmos.Core;
 using System;
+using HontelOS.System.Helpers.Graphics;
 
 namespace HontelOS.System.Graphics
 {
@@ -86,7 +87,7 @@ namespace HontelOS.System.Graphics
         {
             Bitmap background = null;
             if (File.Exists(path))
-                background = new Bitmap(path);
+                background = ImageFormatHelper.GetBitmap(path);
             else
                 background = ResourceManager.Background1;
 

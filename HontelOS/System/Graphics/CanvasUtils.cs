@@ -51,8 +51,11 @@ namespace HontelOS.System.Graphics
             c.DrawFilledCircle(color, x + width - radius - 1, y + height - radius - 1, radius);
         }
 
-        public static Bitmap ScaleImage(Image image, int width, int height)
+        public static Bitmap ScaleImage(Bitmap image, int width, int height)
         {
+            if (image.Width == width && image.Height == height)
+                return image;
+
             int[] pixels = image.RawData;
             int w1 = (int)image.Width;
             int h1 = (int)image.Height;

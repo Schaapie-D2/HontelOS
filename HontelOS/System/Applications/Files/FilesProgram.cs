@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using Cosmos.System.FileSystem.VFS;
 using Cosmos.System.FileSystem;
+using HontelOS.System.Multithreading;
 
 namespace HontelOS.System.Applications.Files
 {
@@ -150,6 +151,9 @@ namespace HontelOS.System.Applications.Files
                     new TextEditor.TextEditorProgram(path);
                     break;
                 case ".bmp":
+                    new ImageViewer.ImageViewerProgram(path);
+                    break;
+                case ".png":
                     new ImageViewer.ImageViewerProgram(path);
                     break;
                 default:
