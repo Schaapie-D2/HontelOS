@@ -31,7 +31,8 @@ namespace HontelOS.System.Graphics
         public bool DisableMaximizeButton = false;
         public bool DisableMinimizeButton = false;
 
-        public List<Action> OnClose = new();
+        public List<Action> OnClose { get; set; } = new();
+        public List<Action> OnResize { get; set; } = new();
 
         bool isHoldingHandel = false;
 
@@ -253,6 +254,7 @@ namespace HontelOS.System.Graphics
             Width = width;
             Height = height;
             canvas.SetSize(width, height);
+            foreach(var a in OnResize) a.Invoke();
             IsDirty = true;
         }
     }

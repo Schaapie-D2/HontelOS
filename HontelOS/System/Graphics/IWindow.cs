@@ -1,4 +1,6 @@
 ﻿using Cosmos.System.Graphics;
+using System;
+using System.Collections.Generic;
 
 namespace HontelOS.System.Graphics
 {
@@ -14,6 +16,9 @@ namespace HontelOS.System.Graphics
         public bool IsVisible { get; set; }
         public bool CanClose { get; set; }
         public bool IsDirty { get; set; }
+
+        public List<Action> OnClose { get; set; }
+        public List<Action> OnResize { get; set; }
 
         public void DrawWindow();
         public void UpdateWindow();

@@ -10,7 +10,7 @@ namespace HontelOS.System.Graphics
     {
         public IControlContainer Container;
 
-        public DirectBitmap c { get; private set; }
+        public DirectBitmap c;
         public Style Style = StyleManager.Style;
 
         public int X;

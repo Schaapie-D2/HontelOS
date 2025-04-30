@@ -57,7 +57,7 @@ namespace HontelOS.System.Graphics
                 if (control.IsDirty) IsDirty = true;
             }
 
-            Window.IsDirty = IsDirty;
+            Window.IsDirty = IsDirty || FullRedrawNeeded;
         }
     }
 }

@@ -45,7 +45,8 @@ namespace HontelOS.System.Graphics
         }
         private int _currentPage = 0;
 
-        public List<Action> OnClose = new();
+        public List<Action> OnClose { get; set; } = new();
+        public List<Action> OnResize { get; set; } = new();
 
         public Color BackgroundColor;
 
@@ -311,7 +312,6 @@ namespace HontelOS.System.Graphics
                 Resize(0, 32, (int)Kernel.screenWidth, (int)Kernel.screenHeight - 32);
             }
             WindowManager.SetFocused(WID);
-            IsDirty = true;
         }
 
         public void Minimize() => IsVisible = false;
@@ -322,11 +322,13 @@ namespace HontelOS.System.Graphics
             Y = y;
             Width = width;
             Height = height;
+
             canvas.SetSize(width, height);
             NavBar.c = canvas;
             foreach (Page p in Pages)
                 p.canvas = canvas;
-            IsDirty = true;
+
+            foreach (var a in OnResize) a.Invoke();
             Pages[CurrentPage].FullRedrawNeeded = true;
         }
     }

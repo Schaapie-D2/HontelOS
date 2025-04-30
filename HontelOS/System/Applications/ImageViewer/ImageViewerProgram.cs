@@ -1,4 +1,5 @@
-﻿using Cosmos.System.Graphics;
+﻿using Cosmos.System;
+using Cosmos.System.Graphics;
 using CosmosPNG.PNGLib.Decoders.PNG;
 using HontelOS.System.Graphics;
 using HontelOS.System.Graphics.Controls;
@@ -10,8 +11,14 @@ namespace HontelOS.System.Applications.ImageViewer
     {
         Bitmap image;
 
-        public ImageViewerProgram(string path) : base("Image viewer", WindowStyle.Normal, 50, 50, 700, 500)
+        PictureBox pictureBox;
+
+        float scale = 1f;
+
+        public ImageViewerProgram(string path) : base("Image viewer", WindowStyle.Normal, 50, 50, 900, 500)
         {
+            OnResize.Add(Resize);
+
             Page p = Pages[0];
 
             switch(Path.GetExtension(path))
@@ -28,9 +35,43 @@ namespace HontelOS.System.Applications.ImageViewer
                     break;
             }
 
-            new PictureBox(image, (int)(Width / 2 - image.Width / 2), (int)(Height / 2 - image.Height / 2), (int)image.Width, (int)image.Height, p);
+            int scaledWidth = (int)(image.Width / ((float)image.Height / Height));
+            int x = (Width - scaledWidth) / 2;
+            pictureBox = new PictureBox(image, x, 0, scaledWidth, Height, p);
 
             WindowManager.Register(this);
+        }
+
+        void Resize()
+        {
+            float aspectRatio = (float)image.Width / image.Height;
+            int scaledHeight = (int)(Height * scale);
+            int scaledWidth = (int)(scaledHeight * aspectRatio);
+
+            int x = (Width - scaledWidth) / 2;
+            int y = (Height - scaledHeight) / 2;
+
+            pictureBox.X = x;
+            pictureBox.Y = y;
+            pictureBox.Width = scaledWidth;
+            pictureBox.Height = scaledHeight;
+
+            Pages[0].FullRedrawNeeded = true;
+        }
+
+        public override void CustomUpdate()
+        {
+            base.CustomUpdate();
+
+            if(MouseManager.ScrollDelta != 0)
+            {
+                if (MouseManager.ScrollDelta > 0 && scale < 10f)
+                    scale += 0.1f;
+                else if (MouseManager.ScrollDelta < 0 && scale > 0.1f)
+                    scale -= 0.1f;
+
+                Resize();
+            }
         }
     }
 }
