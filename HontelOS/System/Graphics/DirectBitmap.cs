@@ -365,17 +365,27 @@ namespace HontelOS.System.Graphics
 
         public void DrawImage(Image image, int x, int y, int w, int h)
         {
-            Color color;
+            if (w <= 0 || h <= 0) return;
 
             int[] pixels = ScaleImage(image, w, h);
-            var maxWidth = Math.Min(w, Width - x);
-            var maxHeight = Math.Min(h, Height - y);
-            for (int xi = 0; xi < maxWidth; xi++)
+
+            if (pixels.Length < w * h) return;
+
+            for (int yi = 0; yi < h; yi++)
             {
-                for (int yi = 0; yi < maxHeight; yi++)
+                int targetY = y + yi;
+                if (targetY < 0 || targetY >= Height) continue;
+
+                for (int xi = 0; xi < w; xi++)
                 {
-                    color = Color.FromArgb(pixels[xi + (yi * w)]);
-                    SetPixelAlpha(x + xi, y + yi, color);
+                    int targetX = x + xi;
+                    if (targetX < 0 || targetX >= Width) continue;
+
+                    int pixelIndex = xi + (yi * w);
+                    if (pixelIndex < 0 || pixelIndex >= pixels.Length) continue;
+
+                    Color color = Color.FromArgb(pixels[pixelIndex]);
+                    SetPixelAlpha(targetX, targetY, color);
                 }
             }
         }
