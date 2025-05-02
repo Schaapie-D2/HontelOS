@@ -19,6 +19,7 @@
             Height = window.Height;
 
             SystemEvents.OnStyleChanged.Add(() => { Style = StyleManager.Style; });
+            window.OnResize.Add(() => { Height = window.Height; });
         }
 
         public void Draw()

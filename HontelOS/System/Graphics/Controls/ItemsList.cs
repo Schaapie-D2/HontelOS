@@ -10,6 +10,10 @@ namespace HontelOS.System.Graphics.Controls
     {
         public List<string> Items;
         public int SelectedIndex = -1;
+        int oldSelectedIndex = -1;
+
+        int hoverIndex = -1;
+        int oldHoverIndex = -1;
 
         int scrollPosition = 0;
         const int itemHeight = 18;
@@ -19,12 +23,6 @@ namespace HontelOS.System.Graphics.Controls
         public ItemsList(List<string> items, int x, int y, int width, int height, IControlContainer container) : base(container)
         {
             Items = items;
-
-            OnClick.Add(() => IsDirty = true);
-            OnEndClick.Add(() => IsDirty = true);
-            OnStartHover.Add(() => IsDirty = true);
-            OnEndHover.Add(() => IsDirty = true);
-            OnMouseMove.Add(() => IsDirty = true);
 
             X = x;
             Y = y;
@@ -49,19 +47,20 @@ namespace HontelOS.System.Graphics.Controls
 
                 if (itemIndex >= Items.Count)
                     break;
+
                 if (!string.IsNullOrEmpty(Items[itemIndex]))
                 {
-                    if (Kernel.MouseInArea(Container.ContainerX + X, Container.ContainerY + Y + i * itemHeight, Container.ContainerX + X + Width, Container.ContainerY + Y + i * itemHeight + itemHeight) && SelectedIndex != i)
-                        c.DrawFilledRoundedRectangle(Style.ItemsList_HoverColor, X, Y + i * itemHeight, Width, itemHeight, 5);
-                    if (Kernel.MouseInArea(Container.ContainerX + X, Container.ContainerY + Y + i * itemHeight, Container.ContainerX + X + Width, Container.ContainerY + Y + i * itemHeight + itemHeight) && Kernel.MouseClick())
-                        SelectedIndex = i;
                     if (SelectedIndex == i)
                     {
                         c.DrawFilledRoundedRectangle(Style.ItemsList_SelectedColor, X, Y + i * itemHeight, Width, itemHeight, 5);
                         c.DrawString(Items[itemIndex], PCScreenFont.Default, Style.ItemsList_SelectedTextColor, X + 2, Y + i * itemHeight);
+                        continue;
                     }
-                    else
-                        c.DrawString(Items[itemIndex], PCScreenFont.Default, Style.ItemsList_TextColor, X + 2, Y + i * itemHeight);
+
+                    if (hoverIndex == i)
+                        c.DrawFilledRoundedRectangle(Style.ItemsList_HoverColor, X, Y + i * itemHeight, Width, itemHeight, 5);
+
+                    c.DrawString(Items[itemIndex], PCScreenFont.Default, Style.ItemsList_TextColor, X + 2, Y + i * itemHeight);
                 }
             }
 
@@ -89,10 +88,48 @@ namespace HontelOS.System.Graphics.Controls
             }
             if (IsHovering)
             {
-                if (MouseManager.ScrollDelta > 0 && scrollPosition > 0)
-                    scrollPosition--;
-                else if (MouseManager.ScrollDelta < 0 && scrollPosition < Items.Count - Height / itemHeight)
-                    scrollPosition++;
+                if(MouseManager.ScrollDelta != 0)
+                {
+                    if (MouseManager.ScrollDelta > 0 && scrollPosition > 0)
+                        scrollPosition--;
+                    else if (MouseManager.ScrollDelta < 0 && scrollPosition < Items.Count - Height / itemHeight)
+                        scrollPosition++;
+
+                    IsDirty = true;
+                }
+
+                for(int i = 0; i < Items.Count; i++)
+                {
+                    if (Kernel.MouseInArea(Container.ContainerX + X, Container.ContainerY + Y + i * itemHeight, Container.ContainerX + X + Width, Container.ContainerY + Y + i * itemHeight + itemHeight))
+                    {
+                        if (oldHoverIndex != i)
+                        {
+                            hoverIndex = i;
+                            IsDirty = true;
+                        }
+
+                        if (Kernel.MouseClick())
+                        {
+                            SelectedIndex = i;
+                            if (oldSelectedIndex != i)
+                            {
+                                IsDirty = true;
+                                SelectedIndex = i;
+                            }
+                        }
+
+                        oldHoverIndex = i;
+                    }
+                }
+            }
+            else
+            {
+                if (oldHoverIndex != -1)
+                {
+                    hoverIndex = -1;
+                    IsDirty = true;
+                    oldHoverIndex = -1;
+                }
             }
         }
     }
