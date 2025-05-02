@@ -99,6 +99,8 @@ namespace HontelOS
                 canvas.DrawImage(logo, (int)screenWidth / 2 - (int)screenHeight / 8, (int)screenHeight / 2 - (int)screenHeight / 8, (int)screenHeight / 4, (int)screenHeight / 4);
                 canvas.Display();
 
+                ResourceManager.LoadResources();
+
                 // I don't know how to use the Cosmos Audio interface correctly, i'll look into it later
                 audioMixer = new AudioMixer();
                 //audioDriver = AudioDriverExt.GetAudioDriver(4096);
