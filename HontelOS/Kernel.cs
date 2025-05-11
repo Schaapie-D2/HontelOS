@@ -122,6 +122,8 @@ namespace HontelOS
                 MouseManager.X = screenWidth / 2;
                 MouseManager.Y = screenHeight / 2;
 
+                KeyboardManagerExt.Init();
+
                 taskBar = new TaskBar();
                 startMenu = new StartMenu();
 

@@ -2,8 +2,12 @@
 * EXTENSIONS:       PCI
 */
 
+using Cosmos.Core.IOGroup;
+using Cosmos.Core;
 using Cosmos.HAL;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace HontelOS.System
 {
@@ -41,6 +45,36 @@ namespace HontelOS.System
                 if (device.VendorID == VendorID && device.DeviceID == DeviceID)
                     return device;
             return null;
+        }
+    }
+
+    public static class PS2KeyboardExt
+    {
+        public static byte GetScanCodeSet(this PS2Keyboard kb)
+        {
+            var mPS2Controller = Cosmos.HAL.Global.PS2Controller;
+
+            if (kb.PS2Port == 2)
+            {
+                mPS2Controller.PrepareSecondPortWrite();
+            }
+
+            mPS2Controller.WaitToWrite();
+            IOPort.Write8(Cosmos.Core.IOGroup.PS2Controller.Data, 0xF0);
+
+            mPS2Controller.WaitForAck();
+
+            if (kb.PS2Port == 2)
+            {
+                mPS2Controller.PrepareSecondPortWrite();
+            }
+
+            mPS2Controller.WaitToWrite();
+            IOPort.Write8(Cosmos.Core.IOGroup.PS2Controller.Data, 0);
+
+            mPS2Controller.WaitForAck();
+
+            return mPS2Controller.ReadByteAfterAck();
         }
     }
 }
