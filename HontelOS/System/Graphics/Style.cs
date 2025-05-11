@@ -15,9 +15,14 @@ namespace HontelOS.System.Graphics
         #endregion
 
         #region System
-        public Color Dock_BackgroundColor;
+        public Color TaskBar_BackgroundColor;
+        public Color TaskBar_BorderColor;
+        public Color TaskBar_IconHoverColor;
 
         public Color TopBar_BackgroundColor;
+
+        public Color StartMenu_BackgroundColor;
+        public Color StartMenu_ContentColor;
         #endregion
 
         #region GUI
@@ -72,9 +77,14 @@ namespace HontelOS.System.Graphics
             SystemFont = PCScreenFont.Default;
             DefaultTextColor = Color.Black;
 
-            Dock_BackgroundColor = Color.FromArgb(194, 194, 194);
+            TaskBar_BackgroundColor = Color.White;
+            TaskBar_BorderColor = Color.FromArgb(194, 194, 194);
+            TaskBar_IconHoverColor = Color.FromArgb(230, 230, 230);
 
             TopBar_BackgroundColor = Color.FromArgb(194, 194, 194);
+
+            StartMenu_BackgroundColor = Color.White;
+            StartMenu_ContentColor = Color.FromArgb(240, 240, 240);
 
             Window_BackgroundColor = Color.White;
             Window_HandleColor = Color.FromArgb(243, 243, 243);
@@ -127,9 +137,14 @@ namespace HontelOS.System.Graphics
             SystemFont = PCScreenFont.Default;
             DefaultTextColor = Color.White;
 
-            Dock_BackgroundColor = Color.FromArgb(80, 80, 80);
+            TaskBar_BackgroundColor = Color.FromArgb(80, 80, 80);
+            TaskBar_BorderColor = Color.FromArgb(45, 45, 45);
+            TaskBar_IconHoverColor = Color.FromArgb(100, 100, 100);
 
             TopBar_BackgroundColor = Color.FromArgb(80, 80, 80);
+
+            StartMenu_BackgroundColor = Color.FromArgb(80, 80, 80);
+            StartMenu_ContentColor = Color.FromArgb(60, 60, 60);
 
             Window_BackgroundColor = Color.FromArgb(20, 20, 20);
             Window_HandleColor = Color.FromArgb(45, 45, 45);

@@ -8,6 +8,7 @@ using System.IO;
 using Cosmos.System.FileSystem.VFS;
 using Cosmos.System.FileSystem;
 using HontelOS.System.Multithreading;
+using HontelOS.Resources;
 
 namespace HontelOS.System.Applications.Files
 {
@@ -27,6 +28,8 @@ namespace HontelOS.System.Applications.Files
                 Close();
                 return;
             }
+
+            Icon = ResourceManager.FolderIcon;
 
             Page p = Pages[0];
 
@@ -62,6 +65,8 @@ namespace HontelOS.System.Applications.Files
                 Close();
                 return;
             }
+
+            Icon = ResourceManager.FolderIcon;
 
             Page p = Pages[0];
 

@@ -30,8 +30,8 @@ namespace HontelOS
     public class Kernel : Sys.Kernel
     {
         public static Canvas canvas;
-        static Dock dock;
-        static TopBar topBar;
+        public static TaskBar taskBar;
+        public static StartMenu startMenu;
         public static CosmosVFS fileSystem;
 
         public static AudioDriver audioDriver;
@@ -47,8 +47,6 @@ namespace HontelOS
 
         public static List<SystemControl> systemControls = new List<SystemControl>();
         public static List<Process> Processes = new List<Process>();
-
-        public static bool appListVisable;
 
         public static bool isDEBUGMode = true;
         public static bool isRealHardwareTest = false;
@@ -124,15 +122,14 @@ namespace HontelOS
                 MouseManager.X = screenWidth / 2;
                 MouseManager.Y = screenHeight / 2;
 
-                dock = new Dock();
-                topBar = new TopBar();
+                taskBar = new TaskBar();
+                startMenu = new StartMenu();
 
                 if (audioDriver == null)
                     new MessageBox("Audio", "There were no compatible sound cards found on your system!", null, MessageBoxButtons.Ok);
 
                 new PasswordWindow();
 
-                appListVisable = false;
                 isUnlocked = false;
             }
             catch (Exception ex)
@@ -152,10 +149,7 @@ namespace HontelOS
                 UpdateSystem();
 
                 // Drawing GUI
-                if (appListVisable)
-                    canvas.DrawImage(StyleManager.BlurredBackground, 0, 0, true);
-                else
-                    canvas.DrawImage(StyleManager.ScalledBackground, 0, 0, true);
+                canvas.DrawImage(StyleManager.ScalledBackground, 0, 0, true);
 
                 WindowManager.Draw();
 
@@ -163,12 +157,9 @@ namespace HontelOS
                 {
                     DrawDesktop();
 
-                    if (appListVisable)
-                        DrawAppList();
-
                     // Top Drawing GUI
-                    topBar.Draw();
-                    dock.Draw();
+                    startMenu.Draw();
+                    taskBar.Draw();
                 }
 
                 foreach (SystemControl gUIElement in systemControls)
@@ -202,11 +193,6 @@ namespace HontelOS
         void DrawDesktop()
         {
             // TODO
-        }
-
-        void DrawAppList()
-        {
-            
         }
 
         void DrawCursor(int[] cursor, uint x, uint y)
@@ -265,8 +251,8 @@ namespace HontelOS
             // Update top GUI
             if (isUnlocked)
             {
-                dock.Update();
-                topBar.Update();
+                startMenu.Update();
+                taskBar.Update();
             }
 
             MouseManager.ResetScrollDelta();

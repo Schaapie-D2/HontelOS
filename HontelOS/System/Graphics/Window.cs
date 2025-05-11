@@ -105,7 +105,7 @@ namespace HontelOS.System.Graphics
 
                     if (Icon != null)
                     {
-                        c.DrawImage(Icon, X + 10, Y + 10, 16, 16, true);//icon
+                        c.DrawImage(Icon, X + 7, Y + 7, 18, 18, true);//icon
                         c.DrawString(Title, PCScreenFont.Default, Style.Window_HandleTextColor, X + 32, Y + 32 / 2 - PCScreenFont.Default.Height / 2);//title
                     }
                     else

@@ -62,8 +62,10 @@ namespace HontelOS.System
       <EmbeddedResource Include="Resources\Images\Branding\HontelOS_Logo_Black.png" />
       <EmbeddedResource Include="Resources\Images\Branding\HontelOS_Logo_White.png" />
       <EmbeddedResource Include="Resources\Images\Branding\Hontel_Logo.png" />
-      <EmbeddedResource Include="Resources\Images\System_App_List.bmp" />
-      <EmbeddedResource Include="Resources\Images\System_Application.bmp" />
+      <EmbeddedResource Include="Resources\Images\System\Application.bmp" />
+      <EmbeddedResource Include="Resources\Images\System\Folder.png" />
+      <EmbeddedResource Include="Resources\Images\System\Power.png" />
+      <EmbeddedResource Include="Resources\Images\System\StartMenu.bmp" />
     </ItemGroup>
 
     <ItemGroup>

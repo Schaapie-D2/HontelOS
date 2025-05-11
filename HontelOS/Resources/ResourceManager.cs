@@ -21,9 +21,10 @@ namespace HontelOS.Resources
         [ManifestResourceStream(ResourceName = "HontelOS.Resources.Audio.boot.wav")] readonly static byte[] BootSoundRaw; public static AudioStream BootSound { get; private set; }
         #endregion
         #region System
-        [ManifestResourceStream(ResourceName = "HontelOS.Resources.Images.System_App_List.bmp")] public readonly static byte[] SystemAppListIconRaw; public static Bitmap SystemAppListIcon { get; private set; }
-
-        [ManifestResourceStream(ResourceName = "HontelOS.Resources.Images.System_Application.bmp")] public readonly static byte[] SystemApplicationIconRaw; public static Bitmap SystemApplicationIcon { get; private set; }
+        [ManifestResourceStream(ResourceName = "HontelOS.Resources.Images.System.Application.bmp")] public readonly static byte[] ApplicationIconRaw; public static Bitmap ApplicationIcon { get; private set; }
+        [ManifestResourceStream(ResourceName = "HontelOS.Resources.Images.System.Folder.png")] public readonly static byte[] FolderIconRaw; public static Bitmap FolderIcon { get; private set; }
+        [ManifestResourceStream(ResourceName = "HontelOS.Resources.Images.System.Power.png")] public readonly static byte[] PowerIconRaw; public static Bitmap PowerIcon { get; private set; }
+        [ManifestResourceStream(ResourceName = "HontelOS.Resources.Images.System.StartMenu.bmp")] public readonly static byte[] StartMenuIconRaw; public static Bitmap StartMenuIcon { get; private set; }
         #endregion
 
         public static void LoadResources()
@@ -37,8 +38,10 @@ namespace HontelOS.Resources
 
             BootSound = MemoryAudioStream.FromWave(BootSoundRaw);
 
-            SystemAppListIcon = ImageFormatHelper.GetBitmap(SystemAppListIconRaw, ".bmp");
-            SystemApplicationIcon = ImageFormatHelper.GetBitmap(SystemApplicationIconRaw, ".bmp");
+            ApplicationIcon = ImageFormatHelper.GetBitmap(ApplicationIconRaw, ".bmp");
+            FolderIcon = ImageFormatHelper.GetBitmap(FolderIconRaw, ".png");
+            PowerIcon = ImageFormatHelper.GetBitmap(PowerIconRaw, ".png");
+            StartMenuIcon = ImageFormatHelper.GetBitmap(StartMenuIconRaw, ".bmp");
         }
     }
 }
