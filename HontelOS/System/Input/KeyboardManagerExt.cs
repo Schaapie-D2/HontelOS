@@ -1,4 +1,5 @@
-﻿using Cosmos.HAL;
+﻿using Cosmos.Core;
+using Cosmos.HAL;
 using Cosmos.System;
 using Cosmos.System.ScanMaps;
 
@@ -12,9 +13,9 @@ namespace HontelOS.System.Input
 
         public static void Init()
         {
-            if(Cosmos.HAL.Global.PS2Controller.FirstDevice is PS2Keyboard kb)
+            if (Cosmos.HAL.Global.PS2Controller.FirstDevice is PS2Keyboard kb)
                 SetScanMap(kb);
-            if(Cosmos.HAL.Global.PS2Controller.SecondDevice is PS2Keyboard kb2)
+            if (Cosmos.HAL.Global.PS2Controller.SecondDevice is PS2Keyboard kb2)
                 SetScanMap(kb2);
         }
 
@@ -24,15 +25,25 @@ namespace HontelOS.System.Input
             switch (scanCodeSet)
             {
                 case 1:
+                    Logs.Log($"Keyboard scan code set {scanCodeSet} on PS/2 port: {kb.PS2Port}");
                     KeyboardManager.SetKeyLayout(new USStandardLayout());
-                    Logs.Log($"Keyboard Layout: {scanCodeSet} on PS/2 port: {kb.PS2Port}");
                     break;
                 case 2:
-                    KeyboardManager.SetKeyLayout(new USSet2Layout());
-                    Logs.Log($"Keyboard Layout: {scanCodeSet} on PS/2 port: {kb.PS2Port}");
+                    Logs.Log($"Keyboard scan code set {scanCodeSet} on PS/2 port: {kb.PS2Port}");
+                    KeyboardManager.SetKeyLayout(new USPS2Set2Layout());
                     break;
                 default:
-                    Logs.Log($"Unknown Keyboard Layout: {scanCodeSet} on PS/2 port: {kb.PS2Port}");
+                    Logs.Log($"Trying to set scan code set {scanCodeSet} to 1 on PS/2 port: {kb.PS2Port}");
+                    kb.SetScanCodeSet(1);
+                    if(kb.GetScanCodeSet() == 1)
+                    {
+                        Logs.Log($"Keyboard scan code set {scanCodeSet} successfully set to 1 on PS/2 port: {kb.PS2Port}");
+                    }
+                    else
+                    {
+                        Logs.Log($"Failed to set scan code set {scanCodeSet} to 1 on PS/2 port: {kb.PS2Port} and is currently {kb.GetScanCodeSet()}");
+                    }
+                    KeyboardManager.SetKeyLayout(new USStandardLayout());
                     break;
             }
         }
@@ -43,13 +54,14 @@ namespace HontelOS.System.Input
             if (KeyboardManager.KeyAvailable)
             {
                 var key = KeyboardManager.ReadKey();
+                Logs.Log("Key press");
 
                 if (Kernel.isRealHardwareTest)
                 {
                     if (key.Key == ConsoleKeyEx.F1)
-                        MouseManager.HandleMouse(0, 5, 0, 0);
-                    else if (key.Key == ConsoleKeyEx.F2)
                         MouseManager.HandleMouse(0, -5, 0, 0);
+                    else if (key.Key == ConsoleKeyEx.F2)
+                        MouseManager.HandleMouse(0, 5, 0, 0);
                     else if (key.Key == ConsoleKeyEx.F3)
                         MouseManager.HandleMouse(-5, 0, 0, 0);
                     else if (key.Key == ConsoleKeyEx.F4)

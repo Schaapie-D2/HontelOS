@@ -50,3 +50,12 @@ https://github.com/user-attachments/assets/6bbe8919-2bb1-47a4-8d9c-3aaa68f34e7b
 # Known issues
 - The OS might crash under heavy load or when running for a long time.
 - The OS might freeze when opening a large file.
+
+# Building
+1. Download this repository as a ZIP file or clone it using Git.
+
+2. Download [my fork of Cosmos](https://github.com/Schaapie-D2/Cosmos) and run the `install-VS2022.bat`. This will install Cosmos and all the dependencies needed to build HontelOS. For detailed instructions, go to [this page](https://cosmosos.github.io/articles/Installation/DevKit.html)
+
+3. Open the solution file `HontelOS.sln` in Visual Studio.
+
+Building the OS can take from 25 to 50 seconds.
