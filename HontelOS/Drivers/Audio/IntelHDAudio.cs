@@ -55,7 +55,7 @@ namespace HontelOS.Drivers.Audio
             if (bufferSize % 2 != 0)
                 throw new ArgumentException("Buffer size must be even.", nameof(bufferSize));
 
-            PCIDevice pci = PCIExt.GetDeviceClass(0x04, 0x01);
+            PCIDevice pci = Cosmos.HAL.PCI.GetDeviceClass(0x04, 0x01);
             //foreach (var _pci in Cosmos.HAL.PCI.Devices)
             //{
             //    if (_pci.VendorID == 0x8086 &&

@@ -3,6 +3,7 @@ using HontelOS.System.Applications.Files;
 using HontelOS.System.Graphics;
 using HontelOS.System.User;
 using System.IO;
+using Cosmos.HAL;
 
 namespace HontelOS.System.Applications.Terminal
 {
@@ -68,7 +69,7 @@ namespace HontelOS.System.Applications.Terminal
                 string devID = args[1];
                 string venID = args[2];
 
-                if (PCIExt.GetDevice(ushort.Parse(devID), ushort.Parse(venID)) != null)
+                if (PCI.GetDevice(ushort.Parse(devID), ushort.Parse(venID)) != null)
                     c.WriteLine("PCI device exists!");
                 else
                     c.WriteLine("PCI device does not exist!");

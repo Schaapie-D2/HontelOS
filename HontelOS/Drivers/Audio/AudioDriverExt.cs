@@ -15,7 +15,7 @@ namespace HontelOS.Drivers.Audio
 
             if (VMTools.IsVMWare)
             {
-                var Dev = PCIExt.GetDevice(0x1274, 0x1371);
+                var Dev = PCI.GetDevice(0x1274, 0x1371);
                 if (Dev != null && Dev.DeviceExists)
                     return ES1371.Initialize(bufferSize);
                 else
