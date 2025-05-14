@@ -54,7 +54,6 @@ namespace HontelOS.System.Input
             if (KeyboardManager.KeyAvailable)
             {
                 var key = KeyboardManager.ReadKey();
-                Logs.Log("Key press");
 
                 if (Kernel.isRealHardwareTest)
                 {

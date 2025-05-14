@@ -250,9 +250,6 @@ namespace HontelOS.System.Graphics
                     ContainerX = X; ContainerY = Y;
                 }
 
-                if (Y < 32)
-                    Y = 32;
-
                 if (MouseManager.MouseState != MouseState.Left && isHoldingHandel)
                     isHoldingHandel = false;
             }
@@ -304,12 +301,12 @@ namespace HontelOS.System.Graphics
 
         public void Maximize()
         {
-            if (X == 0 && Y == 32 && Width == Kernel.screenWidth && Height == Kernel.screenHeight - 32)
+            if (X == 0 && Y == 0 && Width == Kernel.screenWidth && Height == Kernel.screenHeight - Kernel.taskBar.taskBarHeight)
                 Resize(oldX, oldY, oldWidth, oldHeight);
             else
             {
                 oldX = X; oldY = Y; oldWidth = Width; oldHeight = Height;
-                Resize(0, 32, (int)Kernel.screenWidth, (int)Kernel.screenHeight - 32);
+                Resize(0, 0, (int)Kernel.screenWidth, (int)Kernel.screenHeight - Kernel.taskBar.taskBarHeight);
             }
             WindowManager.SetFocused(WID);
         }
