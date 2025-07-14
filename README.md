@@ -8,6 +8,7 @@
 
 # HontelOS
  An Operating System made in C# based on Cosmos Developed by Jort van Dalen.
+> HontelOS will probably not receive updates until Cosmos Gen 3 is completed. At that point, it will likely be rewritten and split into two parts: **HontelOS** (the main operating system) and **Hontel Kernel** (the HAL, Graphics libraries, etc).
 
 # Features
 - PS/2 Keyboard and Mouse
